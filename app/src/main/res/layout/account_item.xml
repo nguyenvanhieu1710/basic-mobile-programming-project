@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/tvAccountName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Account Name"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvAccountId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Account Id" />
+
+    <TextView
+        android:id="@+id/tvPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Password" />
+
+    <TextView
+        android:id="@+id/tvRole"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Role" />
+
+    <TextView
+        android:id="@+id/tvEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email" />
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status" />
+
+    <TextView
+        android:id="@+id/tvDayCreated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Day Created" />
+
+    <CheckBox
+        android:id="@+id/cbRememberPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Remember Password" />
+
+    <CheckBox
+        android:id="@+id/cbDeleted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Deleted" />
+</LinearLayout>

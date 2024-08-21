@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FDF6E3">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/cute_icon"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/cute_cat" />
+
+        <ProgressBar
+            android:id="@+id/cute_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cute_icon"
+            android:layout_centerHorizontal="true"
+            android:indeterminate="true"
+            android:indeterminateTint="#FF4081" />
+
+        <TextView
+            android:id="@+id/loading_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cute_progress_bar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="Loading..."
+            android:textColor="#FF4081"
+            android:textSize="18sp" />
+    </RelativeLayout>
+</FrameLayout>
