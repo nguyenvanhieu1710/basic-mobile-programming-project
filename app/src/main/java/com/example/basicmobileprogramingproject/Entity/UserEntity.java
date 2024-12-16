@@ -62,34 +62,6 @@ public class UserEntity {
         return arrayList;
     }
 
-    public ArrayList<UserModel> getCustomerList() {
-        ArrayList<AccountModel> accountList = accountEntity.getAccountList();
-        ArrayList<UserModel> userList = getUserList();
-        ArrayList<UserModel> customerList = new ArrayList<>();
-        for (UserModel user : userList) {
-            for (AccountModel account : accountList) {
-                if (user.UserId == account.AccountId && account.Role.equals("User")) {
-                    customerList.add(user);
-                }
-            }
-        }
-        return customerList;
-    }
-
-    public ArrayList<UserModel> getStaffList() {
-        ArrayList<AccountModel> accountList = accountEntity.getAccountList();
-        ArrayList<UserModel> userList = getUserList();
-        ArrayList<UserModel> staffList = new ArrayList<>();
-        for (UserModel user : userList) {
-            for (AccountModel account : accountList) {
-                if (user.UserId == account.AccountId && account.Role.equals("Staff")) {
-                    staffList.add(user);
-                }
-            }
-        }
-        return staffList;
-    }
-
     public UserModel getUserById(int userId) {
         UserModel userModel = null;
         ArrayList<UserModel> userList = getUserList();
@@ -105,7 +77,7 @@ public class UserEntity {
     public ArrayList<UserModel> getListOfCustomersWhoHavePurchasedTheProduct() {
         OrderEntity orderEntity = new OrderEntity(context);
         ArrayList<OrderModel> orderList = orderEntity.getOrderList();
-        ArrayList<UserModel> customerList = getCustomerList();
+        ArrayList<UserModel> customerList = getUserList();
         ArrayList<UserModel> listOfCustomersWhoHavePurchasedTheProduct = new ArrayList<>();
         for (OrderModel order : orderList) {
             for (UserModel customer : customerList) {
@@ -154,43 +126,11 @@ public class UserEntity {
         return arrayList;
     }
 
-    public ArrayList<UserModel> getCustomerListingHasBeenDeleted() {
-        ArrayList<AccountModel> accountList = accountEntity.getAccountList();
-        ArrayList<UserModel> userList = getUserListingHasBeenDeleted();
-        ArrayList<UserModel> customerList = new ArrayList<>();
-        for (UserModel user : userList) {
-            for (AccountModel account : accountList) {
-                if (user.UserId == account.AccountId && account.Role.equals("User")) {
-                    customerList.add(user);
-                }
-            }
-        }
-        return customerList;
-    }
-
-    public ArrayList<UserModel> getStaffListingHasBeenDeleted() {
-        ArrayList<AccountModel> accountList = accountEntity.getAccountList();
-        ArrayList<UserModel> userList = getUserListingHasBeenDeleted();
-        ArrayList<UserModel> staffList = new ArrayList<>();
-        for (UserModel user : userList) {
-            for (AccountModel account : accountList) {
-                if (user.UserId == account.AccountId && account.Role.equals("Staff")) {
-                    staffList.add(user);
-                }
-            }
-        }
-        return staffList;
-    }
-
     public boolean insertUser(UserModel userModel) {
-        String sqlStatement = "INSERT INTO User (Name, Birthday, PhoneNumber, Image, Gender, Address, Deleted) " +
-                "VALUES ('" + userModel.Name + "', " +
-                "'" + userModel.Birthday + "', " +
-                "'" + userModel.PhoneNumber + "', " +
-                "'" + userModel.Image + "', " +
-                "'" + userModel.Gender + "', " +
-                "'" + userModel.Address + "', " +
-                (userModel.Deleted ? 1 : 0) + ")";
+        String sqlStatement = "INSERT INTO User (UserId, Name, Birthday, PhoneNumber, Image, Gender, Address, Deleted) " +
+                "VALUES ('" + userModel.UserId + "', '" + userModel.Name + "', '" + userModel.Birthday + "', '" +
+                userModel.PhoneNumber + "', '" + userModel.Image + "', '" + userModel.Gender + "', '" +
+                userModel.Address + "', " + (userModel.Deleted ? 1 : 0) + ")";
 
         try {
             databaseHandler.executeSQL(sqlStatement);
@@ -233,20 +173,9 @@ public class UserEntity {
         }
     }
 
-    public int getNumberOfStaffsDeleted() {
-        int numberOfStaffsDeleted = 0;
-        ArrayList<UserModel> staffList = getStaffListingHasBeenDeleted();
-        for (UserModel staff : staffList) {
-            if (staff.Deleted) {
-                numberOfStaffsDeleted++;
-            }
-        }
-        return numberOfStaffsDeleted;
-    }
-
     public int getNumberOfCustomersDeleted() {
         int numberOfCustomersDeleted = 0;
-        ArrayList<UserModel> customerList = getCustomerListingHasBeenDeleted();
+        ArrayList<UserModel> customerList = getUserListingHasBeenDeleted();
         for (UserModel customer : customerList) {
             if (customer.Deleted) {
                 numberOfCustomersDeleted++;
@@ -257,7 +186,7 @@ public class UserEntity {
 
     public ArrayList<UserModel> getSearchedCustomersList(String searchText) {
         ArrayList<UserModel> searchedCustomersList = new ArrayList<>();
-        ArrayList<UserModel> customerList = getCustomerList();
+        ArrayList<UserModel> customerList = getUserList();
         for (UserModel customer : customerList) {
             // chuyển thành chữ thường cho dễ tìm kiếm
             if (customer.Name.toLowerCase().contains(searchText.toLowerCase())) {
@@ -265,17 +194,5 @@ public class UserEntity {
             }
         }
         return searchedCustomersList;
-    }
-
-    public ArrayList<UserModel> getSearchedStaffsList(String searchText) {
-        ArrayList<UserModel> searchedStaffsList = new ArrayList<>();
-        ArrayList<UserModel> staffList = getStaffList();
-        for (UserModel staff : staffList) {
-            // chuyển thành chữ thường cho dễ tìm kiếm
-            if (staff.Name.toLowerCase().contains(searchText.toLowerCase())) {
-                searchedStaffsList.add(staff);
-            }
-        }
-        return searchedStaffsList;
     }
 }

@@ -44,7 +44,7 @@
             android:title="Register" />
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/icon_login_white"
+            android:icon="@drawable/icon_logout_white"
             android:title="Logout" />
         <item
             android:id="@+id/nav_voucher"
@@ -58,6 +58,22 @@
             android:id="@+id/nav_supplier"
             android:icon="@drawable/icon_user_white"
             android:title="Supplier" />
+        <item
+            android:id="@+id/nav_advertisement"
+            android:icon="@drawable/icon_ads_white"
+            android:title="Advertisement" />
+        <item
+            android:id="@+id/nav_news"
+            android:icon="@drawable/icon_news_white"
+            android:title="News" />
+        <item
+            android:id="@+id/nav_importBill"
+            android:icon="@drawable/icon_order_blue"
+            android:title="Import Bill" />
+        <item
+            android:id="@+id/nav_sellBill"
+            android:icon="@drawable/icon_order_blue"
+            android:title="Sell Bill" />
     </group>
 
 </menu>

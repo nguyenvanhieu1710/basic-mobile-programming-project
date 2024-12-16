@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -172,11 +173,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 currentFragment = FRAGMENT_REGISTER;
             }
         } else if (id == R.id.nav_order) {
-            checkAccountOnline();
-            if (currentFragment != FRAGMENT_ORDER) {
-                replaceFragment(new OrderFragment());
+            if(checkAccountOnline()) {
+                if (currentFragment != FRAGMENT_ORDER) {
+                    replaceFragment(new OrderFragment());
 //                bottomNavigationView.getMenu().findItem(R.id.nav_register).setChecked(true);
-                currentFragment = FRAGMENT_ORDER;
+                    currentFragment = FRAGMENT_ORDER;
+                }
             }
         } else if (id == R.id.nav_supplier) {
             if (currentFragment != FRAGMENT_SUPPLIER) {
@@ -210,16 +212,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                bottomNavigationView.getMenu().findItem(R.id.nav_register).setChecked(true);
                 currentFragment = FRAGMENT_VOUCHER_MANAGEMENT;
             }
-        } else {
+        }
+        else if (id == R.id.nav_logout) {
             if(accountEntity.DisableAllOnlineAccounts()){
                 AlertDialogUtils.showSuccessDialog(this, "Logout successfully");
                 replaceFragment(new HomeFragment());
                 navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
                 currentFragment = FRAGMENT_HOME;
+                handleNavigationView("Guest");
+                // part bottom navigation
+                bottomNavigationView.getMenu().clear();
+                bottomNavigationView.inflateMenu(R.menu.bottom_navigation_for_user);
             }
             else {
                 AlertDialogUtils.showErrorDialog(this, "Logout failed");
             }
+        }
+        else {
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         setTitleToolbar();
@@ -333,6 +342,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         navigationView.getMenu().findItem(R.id.nav_user).setChecked(true);
                         currentFragment = FRAGMENT_USER_MANAGEMENT;
                     }
+                } else if (id == R.id.nav_staff) {
+                    if(currentFragment != FRAGMENT_STAFF_MANAGEMENT){
+                        replaceFragment(new StaffManagementFragment());
+                        navigationView.getMenu().findItem(R.id.nav_staff).setChecked(true);
+                        currentFragment = FRAGMENT_STAFF_MANAGEMENT;
+                    }
                 } else if (id == R.id.nav_cart) {
                     if (currentFragment != FRAGMENT_CART) {
                         replaceFragment(new CartFragment());
@@ -421,7 +436,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 textViewEmail.setText("admin@gmail.com");
                 // part bottom navigation
                 bottomNavigationView.getMenu().clear();
-                bottomNavigationView.inflateMenu(R.menu.bottom_navigation_for_staff);
+                bottomNavigationView.inflateMenu(R.menu.bottom_navigation_for_admin);
             }
         });
 
@@ -490,7 +505,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             item_login.setVisible(true);
             item_register.setVisible(true);
             item_voucher.setVisible(true);
-            item_profile.setVisible(true);
+            item_profile.setVisible(false);
             item_supplier.setVisible(true);
 
             item_home.setChecked(true);

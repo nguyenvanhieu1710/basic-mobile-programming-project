@@ -289,6 +289,18 @@
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
+                <EditText
+                    android:id="@+id/edtPosition"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/rounded_edittext"
+                    android:hint="Position"
+                    android:inputType="text"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
                 <Button
                     android:id="@+id/btnAddNewStaff"
                     android:layout_width="match_parent"

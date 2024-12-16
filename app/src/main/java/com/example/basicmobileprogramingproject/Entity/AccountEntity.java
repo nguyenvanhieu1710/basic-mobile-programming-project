@@ -130,6 +130,7 @@ public class AccountEntity {
             if (acc.Status.equals("Online")) {
                 acc.Status = "Offline";
                 updateAccount(acc);
+                return true;
             }
         }
         return false;

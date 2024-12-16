@@ -66,7 +66,7 @@ public class StatisticalFragment extends Fragment {
         btnExportReport = view.findViewById(R.id.btnExportReport);
 
         userEntity = new UserEntity(getContext());
-        userModel = userEntity.getCustomerList();
+        userModel = userEntity.getUserList();
         orderEntity = new OrderEntity(getContext());
         orderList = orderEntity.getOrderList();
         orderDetailEntity = new OrderDetailEntity(getContext());

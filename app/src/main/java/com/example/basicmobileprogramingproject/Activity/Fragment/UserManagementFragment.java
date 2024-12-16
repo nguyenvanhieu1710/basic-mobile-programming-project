@@ -121,11 +121,11 @@ public class UserManagementFragment extends Fragment {
 
         // get user list
         userEntity = new UserEntity(getContext());
-        userList = userEntity.getCustomerList();
-        userListingHasBeenDeleted = userEntity.getCustomerListingHasBeenDeleted();
-        if (userList.isEmpty()) {
-            AlertDialogUtils.showInfoDialog(getContext(), "No user found");
-        }
+        userList = userEntity.getUserList();
+        userListingHasBeenDeleted = userEntity.getUserListingHasBeenDeleted();
+//        if (userList.isEmpty()) {
+//            AlertDialogUtils.showInfoDialog(getContext(), "No user found");
+//        }
 
         accountEntity = new AccountEntity(getContext());
 
@@ -457,11 +457,11 @@ public class UserManagementFragment extends Fragment {
     }
 
     public void reloadData() {
-        userList = userEntity.getCustomerList();
+        userList = userEntity.getUserList();
         userAdapter.updateUserList(userList);
         userAdapter.notifyDataSetChanged();
 
-        userListingHasBeenDeleted = userEntity.getCustomerListingHasBeenDeleted();
+        userListingHasBeenDeleted = userEntity.getUserListingHasBeenDeleted();
         userListingHasBeenDeletedAdapter.updateUserList(userListingHasBeenDeleted);
         userListingHasBeenDeletedAdapter.notifyDataSetChanged();
     }

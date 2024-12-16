@@ -90,11 +90,11 @@ public class HomeFragment extends Fragment {
         databaseHandler = new DatabaseHandler(getContext());
 //        databaseHandler.getDatabasePath();
 //        databaseHandler.deleteDatabase();
-        try {
-            databaseHandler.createDatabase();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            databaseHandler.createDatabase();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
 
         accountEntity = new AccountEntity(getContext());
 

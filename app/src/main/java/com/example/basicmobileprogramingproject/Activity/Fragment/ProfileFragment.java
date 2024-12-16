@@ -72,7 +72,7 @@ public class ProfileFragment extends Fragment {
 
     public void uploadDataToView() {
         AccountModel onlineAccount = accountEntity.getOnlineAccount();
-        ArrayList<UserModel> userList = userEntity.getCustomerList();
+        ArrayList<UserModel> userList = userEntity.getUserList();
         for (UserModel user : userList) {
             if (user.UserId == onlineAccount.AccountId) {
                 tvName.setText(user.Name);

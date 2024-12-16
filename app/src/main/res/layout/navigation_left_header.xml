@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Hieu Shop"
+        android:text="User Name"
         android:textColor="@color/white"
         android:textSize="24sp" />
 
@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="nguyenvanhieu@gmail.com"
+        android:text="none@gmail.com"
         android:textColor="@color/white"
         android:textSize="14sp" />
 

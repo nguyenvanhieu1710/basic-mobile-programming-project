@@ -30,13 +30,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 
-import com.example.basicmobileprogramingproject.Adapter.UserAdapter;
+import com.example.basicmobileprogramingproject.Adapter.StaffAdapter;
 import com.example.basicmobileprogramingproject.Entity.AccountEntity;
-import com.example.basicmobileprogramingproject.Entity.UserEntity;
+import com.example.basicmobileprogramingproject.Entity.StaffEntity;
+import com.example.basicmobileprogramingproject.Entity.StaffEntity;
 import com.example.basicmobileprogramingproject.Entity.DatabaseHandler;
 import com.example.basicmobileprogramingproject.Model.AccountModel;
 
-import com.example.basicmobileprogramingproject.Model.UserModel;
+import com.example.basicmobileprogramingproject.Model.StaffModel;
 import com.example.basicmobileprogramingproject.R;
 import com.example.basicmobileprogramingproject.Utils.AlertDialogUtils;
 import com.example.basicmobileprogramingproject.Utils.RamdomUtils;
@@ -51,13 +52,13 @@ public class StaffManagementFragment extends Fragment {
     ImageButton btnSearch, btnTurnOnBlockDeleteStaff;
     ImageView imgStaffImage, imageStaff, btnClear, btnExit, btnClose, btnCancel;
     TextView textName, textPhoneNumber, textBirthday, textGender, textAddress, badgeNumberOfStaffsDeleted, txtDeletedStaffName;
-    EditText edtName, edtPhoneNumber, edtBirthday, edtGender, edtAddress, edtSearch;
+    EditText edtName, edtPhoneNumber, edtBirthday, edtGender, edtAddress, edtPosition, edtSearch;
     Button btnAddNewStaff, btnTurnOnBlockAddNewStaff, btnFixStaff, btnDelete, btnTurnOnBlockEditStaff, btnSelectStaffImage, btnRestoreStaff, btnDeleteActualStaff;
     LinearLayout linearLayoutAddAndEditStaff, linearLayoutStaffDetail, linearLayoutDeleteAndRestoreStaff, linearLayoutDeletedStaffDetail;
     RecyclerView recyclerViewStaff, recyclerViewStaffHasBeenDeleted;
-    UserAdapter staffAdapter, staffListingHasBeenDeletedAdapter;
-    UserEntity staffEntity;
-    ArrayList<UserModel> staffList, staffListingHasBeenDeleted;
+    StaffAdapter staffAdapter, staffListingHasBeenDeletedAdapter;
+    StaffEntity staffEntity;
+    ArrayList<StaffModel> staffList, staffListingHasBeenDeleted;
     AccountEntity accountEntity;
     DatabaseHandler databaseHandler;
     View view;
@@ -84,6 +85,7 @@ public class StaffManagementFragment extends Fragment {
         edtBirthday = view.findViewById(R.id.edtBirthday);
         edtGender = view.findViewById(R.id.edtGender);
         edtAddress = view.findViewById(R.id.edtAddress);
+        edtPosition = view.findViewById(R.id.edtPosition);
         imgStaffImage = view.findViewById(R.id.imgStaffImage);
         btnSelectStaffImage = view.findViewById(R.id.btnSelectStaffImage);
         handleSelectStaffImage();
@@ -120,15 +122,19 @@ public class StaffManagementFragment extends Fragment {
 //        databaseHandler.getDatabasePath();
 
         // get staff list
-        staffEntity = new UserEntity(getContext());
+        staffEntity = new StaffEntity(getContext());
         staffList = staffEntity.getStaffList();
         staffListingHasBeenDeleted = staffEntity.getStaffListingHasBeenDeleted();
+//        if (staffList.isEmpty()){
+//            AlertDialogUtils.showErrorDialog(getContext(), "No staff");
+//            return view;
+//        }
 
         accountEntity = new AccountEntity(getContext());
 
         // call adapter
-        staffAdapter = new UserAdapter(getContext(), staffList);
-        staffListingHasBeenDeletedAdapter = new UserAdapter(getContext(), staffListingHasBeenDeleted);
+        staffAdapter = new StaffAdapter(getContext(), staffList);
+        staffListingHasBeenDeletedAdapter = new StaffAdapter(getContext(), staffListingHasBeenDeleted);
 
         // assign data up recyclerView
         recyclerViewStaff = view.findViewById(R.id.recyclerViewStaff);
@@ -150,15 +156,16 @@ public class StaffManagementFragment extends Fragment {
         return view;
     }
 
-    public UserModel assignData() {
-        UserModel staffModel = new UserModel();
-        staffModel.UserId = clickedStaffId;
+    public StaffModel assignData() {
+        StaffModel staffModel = new StaffModel();
+        staffModel.StaffId = clickedStaffId;
         staffModel.Name = edtName.getText().toString();
         staffModel.Birthday = edtBirthday.getText().toString();
         staffModel.PhoneNumber = edtPhoneNumber.getText().toString();
         staffModel.Image = imagePath;
         staffModel.Gender = edtGender.getText().toString();
         staffModel.Address = edtAddress.getText().toString();
+        staffModel.Position = edtPosition.getText().toString();
         staffModel.Deleted = false;
         return staffModel;
     }
@@ -188,15 +195,19 @@ public class StaffManagementFragment extends Fragment {
             AlertDialogUtils.showErrorDialog(getContext(), "Please enter address");
             return false;
         }
+        if (edtPosition.getText().toString().isEmpty()) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Please enter position");
+            return false;
+        }
         return true;
     }
 
     public void handleSelectStaff() {
         staffAdapter.setOnItemClickListener(position -> {
-            UserModel clickedStaff = staffList.get(position);
+            StaffModel clickedStaff = staffList.get(position);
             linearLayoutStaffDetail.setVisibility(View.VISIBLE);
 
-            clickedStaffId = clickedStaff.UserId;
+            clickedStaffId = clickedStaff.StaffId;
             imageStaff.setImageURI(Uri.parse(clickedStaff.Image));
             textName.setText(clickedStaff.Name);
             textPhoneNumber.setText("Phone: " + clickedStaff.PhoneNumber);
@@ -211,14 +222,15 @@ public class StaffManagementFragment extends Fragment {
             edtBirthday.setText(clickedStaff.Birthday);
             edtGender.setText(clickedStaff.Gender);
             edtAddress.setText(clickedStaff.Address);
+            edtPosition.setText(clickedStaff.Position);
         });
         staffListingHasBeenDeletedAdapter.setOnItemClickListener(position -> {
-            UserModel clickedStaff = staffListingHasBeenDeleted.get(position);
+            StaffModel clickedStaff = staffListingHasBeenDeleted.get(position);
             linearLayoutDeletedStaffDetail.setVisibility(View.VISIBLE);
             linearLayoutStaffDetail.setVisibility(View.GONE);
             linearLayoutAddAndEditStaff.setVisibility(View.GONE);
 
-            clickedStaffId = clickedStaff.UserId;
+            clickedStaffId = clickedStaff.StaffId;
             txtDeletedStaffName.setText(clickedStaff.Name);
 //            imageStaff.setImageURI(Uri.parse(clickedStaff.Image));
 //            textPhoneNumber.setText("Phone: " + clickedStaff.PhoneNumber);
@@ -233,6 +245,7 @@ public class StaffManagementFragment extends Fragment {
             edtBirthday.setText(clickedStaff.Birthday);
             edtGender.setText(clickedStaff.Gender);
             edtAddress.setText(clickedStaff.Address);
+            edtPosition.setText(clickedStaff.Position);
         });
     }
 
@@ -252,8 +265,8 @@ public class StaffManagementFragment extends Fragment {
                     AlertDialogUtils.showErrorDialog(getContext(), "Please enter search keyword");
                     return;
                 }
-                ArrayList<UserModel> searchedUserList = staffEntity.getSearchedStaffsList(searchKeyword);
-                staffAdapter.updateUserList(searchedUserList);
+                ArrayList<StaffModel> searchedStaffList = staffEntity.getSearchedStaffsList(searchKeyword);
+                staffAdapter.updateStaffList(searchedStaffList);
                 staffAdapter.notifyDataSetChanged();
             }
         });
@@ -318,7 +331,7 @@ public class StaffManagementFragment extends Fragment {
                 if (!validateData()) {
                     return;
                 }
-                UserModel newStaff = assignData();
+                StaffModel newStaff = assignData();
                 AccountModel accountModel = new AccountModel();
                 accountModel.AccountName = RamdomUtils.appendRandomNumbers(newStaff.Name);
                 accountModel.Password = "123";
@@ -327,8 +340,8 @@ public class StaffManagementFragment extends Fragment {
                     AlertDialogUtils.showErrorDialog(getContext(), "Add Account fail");
                     return;
                 }
-                newStaff.UserId = accountEntity.getFinalAccountId();
-                boolean isCheck = staffEntity.insertUser(newStaff);
+                newStaff.StaffId = accountEntity.getFinalAccountId();
+                boolean isCheck = staffEntity.insertStaff(newStaff);
                 if (isCheck) {
                     AlertDialogUtils.showSuccessDialog(getContext(), "Add Staff success");
                     reloadData();
@@ -355,8 +368,8 @@ public class StaffManagementFragment extends Fragment {
         btnFixStaff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserModel newStaff = assignData();
-                boolean isCheck = staffEntity.updateUser(newStaff);
+                StaffModel newStaff = assignData();
+                boolean isCheck = staffEntity.updateStaff(newStaff);
                 if (isCheck) {
                     AlertDialogUtils.showSuccessDialog(getContext(), "Update staff success");
                     reloadData();
@@ -372,15 +385,15 @@ public class StaffManagementFragment extends Fragment {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserModel newStaff = assignData();
-                AccountModel accountModel = accountEntity.getAccountById(newStaff.UserId);
+                StaffModel newStaff = assignData();
+                AccountModel accountModel = accountEntity.getAccountById(newStaff.StaffId);
                 accountModel.Deleted = true;
                 if (!accountEntity.updateAccount(accountModel)) {
                     AlertDialogUtils.showErrorDialog(getContext(), "Delete account fail");
                     return;
                 }
                 newStaff.Deleted = true;
-                boolean isCheck = staffEntity.updateUser(newStaff);
+                boolean isCheck = staffEntity.updateStaff(newStaff);
                 if (isCheck) {
                     AlertDialogUtils.showSuccessDialog(getContext(), "Delete staff success");
                     reloadData();
@@ -405,15 +418,15 @@ public class StaffManagementFragment extends Fragment {
         btnRestoreStaff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserModel newStaff = assignData();
-                AccountModel accountModel = accountEntity.getAccountById(newStaff.UserId);
+                StaffModel newStaff = assignData();
+                AccountModel accountModel = accountEntity.getAccountById(newStaff.StaffId);
                 accountModel.Deleted = false;
                 if (!accountEntity.updateAccount(accountModel)) {
                     AlertDialogUtils.showErrorDialog(getContext(), "Restore account fail");
                     return;
                 }
                 newStaff.Deleted = false;
-                boolean isCheck = staffEntity.updateUser(newStaff);
+                boolean isCheck = staffEntity.updateStaff(newStaff);
                 if (isCheck) {
                     AlertDialogUtils.showSuccessDialog(getContext(), "Restore staff success");
                     uploadNumberOfStaffsDeleted();
@@ -429,8 +442,8 @@ public class StaffManagementFragment extends Fragment {
         btnDeleteActualStaff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserModel newStaff = assignData();
-                boolean isCheck = staffEntity.deleteUser(newStaff);
+                StaffModel newStaff = assignData();
+                boolean isCheck = staffEntity.deleteStaff(newStaff);
                 if (isCheck) {
                     AlertDialogUtils.showSuccessDialog(getContext(), "Delete actual staff success");
                     uploadNumberOfStaffsDeleted();
@@ -446,11 +459,11 @@ public class StaffManagementFragment extends Fragment {
 
     public void reloadData() {
         staffList = staffEntity.getStaffList();
-        staffAdapter.updateUserList(staffList);
+        staffAdapter.updateStaffList(staffList);
         staffAdapter.notifyDataSetChanged();
 
         staffListingHasBeenDeleted = staffEntity.getStaffListingHasBeenDeleted();
-        staffListingHasBeenDeletedAdapter.updateUserList(staffListingHasBeenDeleted);
+        staffListingHasBeenDeletedAdapter.updateStaffList(staffListingHasBeenDeleted);
         staffListingHasBeenDeletedAdapter.notifyDataSetChanged();
     }
 

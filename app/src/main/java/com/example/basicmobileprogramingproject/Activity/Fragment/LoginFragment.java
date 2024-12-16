@@ -17,8 +17,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.basicmobileprogramingproject.Entity.AccountEntity;
 import com.example.basicmobileprogramingproject.Entity.DatabaseHandler;
+import com.example.basicmobileprogramingproject.Entity.StaffEntity;
 import com.example.basicmobileprogramingproject.Entity.UserEntity;
 import com.example.basicmobileprogramingproject.Model.AccountModel;
+import com.example.basicmobileprogramingproject.Model.StaffModel;
 import com.example.basicmobileprogramingproject.Model.UserModel;
 import com.example.basicmobileprogramingproject.R;
 import com.example.basicmobileprogramingproject.Utils.AlertDialogUtils;
@@ -36,6 +38,7 @@ public class LoginFragment extends Fragment {
     ArrayList<AccountModel> accountList;
     AccountEntity accountEntity;
     UserEntity userEntity;
+    StaffEntity staffEntity;
     DatabaseHandler databaseHandler;
 
     @Override
@@ -58,6 +61,7 @@ public class LoginFragment extends Fragment {
 //        databaseHandler.getDatabasePath();
 
         userEntity = new UserEntity(getContext());
+        staffEntity = new StaffEntity(getContext());
 
         accountEntity = new AccountEntity(getContext());
         accountList = accountEntity.getAccountList();
@@ -108,12 +112,13 @@ public class LoginFragment extends Fragment {
                 // check role
                 String role = accountEntity.getRole(account);
                 account.AccountId = accountEntity.getAccountId(account);
-                UserModel user = userEntity.getUserById(account.AccountId);
-//                if (user == null) {
-//                    AlertDialogUtils.showErrorDialog(getContext(), "User is not exists");
-//                    return;
-//                }
+
                 if (role.equals("User")) {
+                    UserModel user = userEntity.getUserById(account.AccountId);
+                    if (user == null) {
+                        AlertDialogUtils.showErrorDialog(getContext(), "User is not exists");
+                        return;
+                    }
                     Bundle result = new Bundle();
                     result.putString("username", user.Name);
                     result.putString("email", account.Email);
@@ -121,8 +126,13 @@ public class LoginFragment extends Fragment {
                     getParentFragmentManager().setFragmentResult("requestKeyOfUser", result);
                     replaceFragment(new HomeFragment());
                 } else if (role.equals("Staff")) {
+                    StaffModel staff = staffEntity.getStaffById(account.AccountId);
+                    if (staff == null) {
+                        AlertDialogUtils.showErrorDialog(getContext(), "Staff is not exists");
+                        return;
+                    }
                     Bundle result = new Bundle();
-                    result.putString("username", user.Name);
+                    result.putString("username", staff.Name);
                     result.putString("email", account.Email);
                     result.putBoolean("updateNavMenuOfStaff", true);
                     getParentFragmentManager().setFragmentResult("requestKeyOfStaff", result);

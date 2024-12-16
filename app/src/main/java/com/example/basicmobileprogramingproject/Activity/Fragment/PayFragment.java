@@ -22,12 +22,14 @@ import com.example.basicmobileprogramingproject.Entity.CartEntity;
 import com.example.basicmobileprogramingproject.Entity.OrderDetailEntity;
 import com.example.basicmobileprogramingproject.Entity.OrderEntity;
 import com.example.basicmobileprogramingproject.Entity.ProductEntity;
+import com.example.basicmobileprogramingproject.Entity.StaffEntity;
 import com.example.basicmobileprogramingproject.Entity.UserEntity;
 import com.example.basicmobileprogramingproject.Entity.VoucherEntity;
 import com.example.basicmobileprogramingproject.Model.AccountModel;
 import com.example.basicmobileprogramingproject.Model.CartModel;
 import com.example.basicmobileprogramingproject.Model.OrderDetailModel;
 import com.example.basicmobileprogramingproject.Model.OrderModel;
+import com.example.basicmobileprogramingproject.Model.StaffModel;
 import com.example.basicmobileprogramingproject.Model.UserModel;
 import com.example.basicmobileprogramingproject.Model.VoucherModel;
 import com.example.basicmobileprogramingproject.R;
@@ -45,11 +47,12 @@ public class PayFragment extends Fragment {
     PayAdapter payAdapter;
     List<CartModel> cartList;
     ArrayList<VoucherModel> voucherList;
-    ArrayList<UserModel> staffList;
+    ArrayList<StaffModel> staffList;
     CartEntity cartEntity;
     ProductEntity productEntity;
     VoucherEntity voucherEntity;
     UserEntity userEntity;
+    StaffEntity staffEntity;
     OrderEntity orderEntity;
     OrderDetailEntity orderDetailEntity;
     AccountEntity accountEntity;
@@ -96,7 +99,8 @@ public class PayFragment extends Fragment {
         voucherList = voucherEntity.getVoucherList();
 
         userEntity = new UserEntity(getContext());
-        staffList = userEntity.getStaffList();
+        staffEntity = new StaffEntity(getContext());
+        staffList = staffEntity.getStaffList();
 
         uploadDataToSpinner();
         uploadTotalAmount();
@@ -185,7 +189,7 @@ public class PayFragment extends Fragment {
         );
         spinnerVoucher.setAdapter(voucherAdapter);
 
-        CustomPayAdapter<UserModel> staffAdapter = new CustomPayAdapter<>(
+        CustomPayAdapter<StaffModel> staffAdapter = new CustomPayAdapter<>(
                 getContext(), R.layout.spinner_item_of_staff, staffList
         );
         spinnerStaff.setAdapter(staffAdapter);
