@@ -94,4 +94,9 @@ public class ImportBillEntity {
             return false;
         }
     }
+    public ArrayList<ImportBillModel> getSearchedImportBillList(String searchKeyword) {
+        ArrayList<ImportBillModel> arrayList = getImportBillList();
+        ArrayList<ImportBillModel> searchedImportBillList = new ArrayList<>();
+        return arrayList;
+    }
 }

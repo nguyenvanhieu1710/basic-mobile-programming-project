@@ -219,4 +219,15 @@ public class AccountEntity {
         }
         return finalAccountId;
     }
+
+    public ArrayList<AccountModel> getSearchedAccountList(String searchKeyword) {
+        ArrayList<AccountModel> searchedAccountList = new ArrayList<>();
+        ArrayList<AccountModel> accountList = getAccountList();
+        for (AccountModel account : accountList) {
+            if (account.AccountName.toLowerCase().contains(searchKeyword.toLowerCase())) {
+                searchedAccountList.add(account);
+            }
+        }
+        return searchedAccountList;
+    }
 }

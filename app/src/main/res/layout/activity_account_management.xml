@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F9F9F9">
+
+    <LinearLayout
+        android:id="@+id/layout_search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="4dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_edittext"
+            android:elevation="4dp"
+            android:gravity="center_vertical"
+            android:padding="8dp">
+
+            <EditText
+                android:id="@+id/edtSearch"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:hint="Search here..."
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textColorHint="#BDBDBD"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/btnClear"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/icon_cancel" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btnSearch"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:adjustViewBounds="true"
+            android:background="@color/white"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_search_blue" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_account_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/layout_search_bar"
+        android:layout_above="@id/account_action_buttons"
+        android:padding="16dp"
+        android:clipToPadding="false" />
+
+    <LinearLayout
+        android:id="@+id/account_action_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="16dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btn_add_account"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Thêm mới"
+            android:backgroundTint="#4CAF50"
+            android:textColor="#FFFFFF"
+            android:textAllCaps="false"
+            android:drawablePadding="8dp" />
+
+        <View
+            android:layout_width="16dp"
+            android:layout_height="0dp" />
+
+        <Button
+            android:id="@+id/btn_edit_account"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Sửa"
+            android:backgroundTint="#FFC107"
+            android:textColor="#FFFFFF"
+            android:textAllCaps="false"
+            android:drawablePadding="8dp" />
+
+        <View
+            android:layout_width="16dp"
+            android:layout_height="0dp" />
+
+        <Button
+            android:id="@+id/btn_delete_account"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Xóa"
+            android:backgroundTint="#F44336"
+            android:textColor="#FFFFFF"
+            android:textAllCaps="false"
+            android:drawablePadding="8dp" />
+    </LinearLayout>
+
+</RelativeLayout>

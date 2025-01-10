@@ -2,7 +2,6 @@ package com.example.basicmobileprogramingproject.Activity.Fragment;
 
 import static android.app.Activity.RESULT_OK;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -11,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,35 +18,23 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 
 import com.example.basicmobileprogramingproject.Adapter.CategoryAdapter;
-import com.example.basicmobileprogramingproject.Adapter.CategoryAdapter;
-import com.example.basicmobileprogramingproject.Adapter.CategoryAdapter;
 import com.example.basicmobileprogramingproject.Entity.CategoryEntity;
 import com.example.basicmobileprogramingproject.Entity.DatabaseHandler;
 
-import com.example.basicmobileprogramingproject.Entity.CategoryEntity;
 import com.example.basicmobileprogramingproject.Model.CategoryModel;
 
-import com.example.basicmobileprogramingproject.Model.CategoryModel;
-import com.example.basicmobileprogramingproject.Model.ProductModel;
-import com.example.basicmobileprogramingproject.Model.CategoryModel;
-import com.example.basicmobileprogramingproject.Model.CategoryModel;
 import com.example.basicmobileprogramingproject.R;
 import com.example.basicmobileprogramingproject.Utils.AlertDialogUtils;
 
@@ -88,7 +74,7 @@ public class CategoryManagementFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.category_management, container, false);
+        view = inflater.inflate(R.layout.category_management_fragment, container, false);
         // mapping id
         clickedCategoryId = 0;
         badgeNumberOfCategoriesDeleted = view.findViewById(R.id.badgeNumberOfCategoriesDeleted);

@@ -17,16 +17,21 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.basicmobileprogramingproject.Activity.Fragment.AccountFragment;
+import com.example.basicmobileprogramingproject.Activity.Fragment.AdvertisementFragment;
 import com.example.basicmobileprogramingproject.Activity.Fragment.CartFragment;
 import com.example.basicmobileprogramingproject.Activity.Fragment.CategoryManagementFragment;
 import com.example.basicmobileprogramingproject.Activity.Fragment.HomeFragment;
+import com.example.basicmobileprogramingproject.Activity.Fragment.ImportBillFragment;
 import com.example.basicmobileprogramingproject.Activity.Fragment.LoginFragment;
 import com.example.basicmobileprogramingproject.Activity.Fragment.MessageFragment;
+import com.example.basicmobileprogramingproject.Activity.Fragment.NewsFragment;
 import com.example.basicmobileprogramingproject.Activity.Fragment.OrderFragment;
 import com.example.basicmobileprogramingproject.Activity.Fragment.PayFragment;
 import com.example.basicmobileprogramingproject.Activity.Fragment.ProductManagementFragment;
 import com.example.basicmobileprogramingproject.Activity.Fragment.ProfileFragment;
 import com.example.basicmobileprogramingproject.Activity.Fragment.RegisterFragment;
+import com.example.basicmobileprogramingproject.Activity.Fragment.SellBillFragment;
 import com.example.basicmobileprogramingproject.Activity.Fragment.StaffManagementFragment;
 import com.example.basicmobileprogramingproject.Activity.Fragment.StatisticalFragment;
 import com.example.basicmobileprogramingproject.Activity.Fragment.SupplierFragment;
@@ -55,6 +60,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int FRAGMENT_STAFF_MANAGEMENT = 11;
     private static final int FRAGMENT_STATISTICAL = 12;
     private static final int FRAGMENT_VOUCHER_MANAGEMENT = 13;
+    private static final int FRAGMENT_PAY = 14;
+    private static final int FRAGMENT_ACCOUNT = 15;
+    private static final int FRAGMENT_ADVERTISEMENT = 16;
+    private static final int FRAGMENT_NEWS = 17;
+    private static final int FRAGMENT_IMPORT_BILL = 18;
+    private static final int FRAGMENT_SELL_BILL = 19;
 
     private int currentFragment = FRAGMENT_HOME;
     DrawerLayout drawerLayout;
@@ -124,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
-        if (id == R.id.nav_cart || id == R.id.nav_profile || id == R.id.nav_order) {
+        if (id == R.id.nav_cart || id == R.id.nav_profile || id == R.id.nav_order || id == R.id.nav_news) {
             if (!checkAccountOnline()) {
                 return false;
             }
@@ -173,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 currentFragment = FRAGMENT_REGISTER;
             }
         } else if (id == R.id.nav_order) {
-            if(checkAccountOnline()) {
+            if (checkAccountOnline()) {
                 if (currentFragment != FRAGMENT_ORDER) {
                     replaceFragment(new OrderFragment());
 //                bottomNavigationView.getMenu().findItem(R.id.nav_register).setChecked(true);
@@ -187,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 currentFragment = FRAGMENT_SUPPLIER;
             }
         } else if (id == R.id.nav_profile) {
-            if(checkAccountOnline()){
+            if (checkAccountOnline()) {
                 if (currentFragment != FRAGMENT_PROFILE) {
                     replaceFragment(new ProfileFragment());
 //                bottomNavigationView.getMenu().findItem(R.id.nav_register).setChecked(true);
@@ -212,9 +223,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                bottomNavigationView.getMenu().findItem(R.id.nav_register).setChecked(true);
                 currentFragment = FRAGMENT_VOUCHER_MANAGEMENT;
             }
-        }
-        else if (id == R.id.nav_logout) {
-            if(accountEntity.DisableAllOnlineAccounts()){
+        } else if (id == R.id.nav_advertisement) {
+            if (currentFragment != FRAGMENT_ADVERTISEMENT) {
+                replaceFragment(new AdvertisementFragment());
+//                bottomNavigationView.getMenu().findItem(R.id.nav_register).setChecked(true);
+                currentFragment = FRAGMENT_ADVERTISEMENT;
+            }
+        } else if (id == R.id.nav_news) {
+            if (currentFragment != FRAGMENT_NEWS) {
+                replaceFragment(new NewsFragment());
+//                bottomNavigationView.getMenu().findItem(R.id.nav_register).setChecked(true);
+                currentFragment = FRAGMENT_NEWS;
+            }
+        } else if (id == R.id.nav_importBill) {
+            if (currentFragment != FRAGMENT_IMPORT_BILL) {
+                replaceFragment(new ImportBillFragment());
+//                bottomNavigationView.getMenu().findItem(R.id.nav_register).setChecked(true);
+                currentFragment = FRAGMENT_IMPORT_BILL;
+            }
+        } else if (id == R.id.nav_sellBill) {
+            if (currentFragment != FRAGMENT_SELL_BILL) {
+                replaceFragment(new SellBillFragment());
+//                bottomNavigationView.getMenu().findItem(R.id.nav_register).setChecked(true);
+                currentFragment = FRAGMENT_SELL_BILL;
+            }
+        } else if (id == R.id.nav_account) {
+            if (currentFragment != FRAGMENT_ACCOUNT) {
+                replaceFragment(new AccountFragment());
+//                bottomNavigationView.getMenu().findItem(R.id.nav_register).setChecked(true);
+                currentFragment = FRAGMENT_ACCOUNT;
+            }
+        } else if (id == R.id.nav_logout) {
+            if (accountEntity.DisableAllOnlineAccounts()) {
                 AlertDialogUtils.showSuccessDialog(this, "Logout successfully");
                 replaceFragment(new HomeFragment());
                 navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
@@ -223,12 +263,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 // part bottom navigation
                 bottomNavigationView.getMenu().clear();
                 bottomNavigationView.inflateMenu(R.menu.bottom_navigation_for_user);
-            }
-            else {
+            } else {
                 AlertDialogUtils.showErrorDialog(this, "Logout failed");
             }
-        }
-        else {
+        } else {
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         setTitleToolbar();
@@ -260,8 +298,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (!accountEntity.checkAccountActive()) {
             AlertDialogUtils.showErrorDialog(this, "Please login to continue");
             return false;
-        }
-        else {
+        } else {
             return true;
         }
     }
@@ -296,6 +333,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             title = "Statistical";
         } else if (currentFragment == FRAGMENT_VOUCHER_MANAGEMENT) {
             title = "Voucher Management";
+        } else if (currentFragment == FRAGMENT_ADVERTISEMENT) {
+            title = "Advertisement";
+        } else if (currentFragment == FRAGMENT_NEWS) {
+            title = "News";
+        } else if (currentFragment == FRAGMENT_IMPORT_BILL) {
+            title = "Import Bill";
+        } else if (currentFragment == FRAGMENT_SELL_BILL) {
+            title = "Sell Bill";
+        } else if (currentFragment == FRAGMENT_ACCOUNT) {
+            title = "Account";
         }
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(title);
@@ -343,7 +390,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         currentFragment = FRAGMENT_USER_MANAGEMENT;
                     }
                 } else if (id == R.id.nav_staff) {
-                    if(currentFragment != FRAGMENT_STAFF_MANAGEMENT){
+                    if (currentFragment != FRAGMENT_STAFF_MANAGEMENT) {
                         replaceFragment(new StaffManagementFragment());
                         navigationView.getMenu().findItem(R.id.nav_staff).setChecked(true);
                         currentFragment = FRAGMENT_STAFF_MANAGEMENT;
@@ -457,21 +504,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         MenuItem item_voucher = navMenu.findItem(R.id.nav_voucher);
         MenuItem item_profile = navMenu.findItem(R.id.nav_profile);
         MenuItem item_supplier = navMenu.findItem(R.id.nav_supplier);
+        MenuItem item_advertisement = navMenu.findItem(R.id.nav_advertisement);
+        MenuItem item_news = navMenu.findItem(R.id.nav_news);
+        MenuItem item_importBill = navMenu.findItem(R.id.nav_importBill);
+        MenuItem item_sellBill = navMenu.findItem(R.id.nav_sellBill);
+        MenuItem item_account = navMenu.findItem(R.id.nav_account);
 
         if (role.equals("Guest") || role.equals("User")) {
             item_home.setVisible(true);
-            item_category.setVisible(false);
-            item_product.setVisible(false);
             item_cart.setVisible(true);
-            item_statistical.setVisible(false);
             item_order.setVisible(true);
-            item_user.setVisible(false);
-            item_staff.setVisible(false);
             item_login.setVisible(true);
             item_register.setVisible(true);
-            item_voucher.setVisible(false);
             item_profile.setVisible(true);
+            item_news.setVisible(true);
+
+            item_category.setVisible(false);
+            item_product.setVisible(false);
+            item_statistical.setVisible(false);
+            item_user.setVisible(false);
+            item_staff.setVisible(false);
+            item_voucher.setVisible(false);
             item_supplier.setVisible(false);
+            item_advertisement.setVisible(false);
+            item_importBill.setVisible(false);
+            item_sellBill.setVisible(false);
+            item_account.setVisible(false);
 
             item_home.setChecked(true);
         }
@@ -479,34 +537,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             item_home.setVisible(true);
             item_category.setVisible(true);
             item_product.setVisible(true);
-            item_cart.setVisible(false);
             item_statistical.setVisible(true);
             item_order.setVisible(true);
-            item_user.setVisible(false);
-            item_staff.setVisible(false);
             item_login.setVisible(true);
             item_register.setVisible(true);
             item_voucher.setVisible(true);
             item_profile.setVisible(true);
             item_supplier.setVisible(true);
+            item_advertisement.setVisible(true);
+            item_news.setVisible(true);
+            item_importBill.setVisible(true);
+            item_sellBill.setVisible(true);
+            item_account.setVisible(true);
+
+            item_cart.setVisible(false);
+            item_user.setVisible(false);
+            item_staff.setVisible(false);
 
             item_home.setChecked(true);
-
         }
         if (role.equals("Admin")) {
             item_home.setVisible(true);
             item_category.setVisible(true);
             item_product.setVisible(true);
-            item_cart.setVisible(false);
             item_statistical.setVisible(true);
-            item_order.setVisible(false);
             item_user.setVisible(true);
             item_staff.setVisible(true);
             item_login.setVisible(true);
             item_register.setVisible(true);
             item_voucher.setVisible(true);
-            item_profile.setVisible(false);
             item_supplier.setVisible(true);
+            item_advertisement.setVisible(true);
+            item_news.setVisible(true);
+            item_importBill.setVisible(true);
+            item_sellBill.setVisible(true);
+            item_account.setVisible(true);
+
+            item_cart.setVisible(false);
+            item_order.setVisible(false);
+            item_profile.setVisible(false);
 
             item_home.setChecked(true);
         }

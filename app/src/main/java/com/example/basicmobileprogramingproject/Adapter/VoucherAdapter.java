@@ -66,7 +66,6 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.ViewHold
             imageViewVoucher = itemView.findViewById(R.id.imageViewVoucher);
             textViewVoucherName = itemView.findViewById(R.id.textViewVoucherName);
 
-            // Gán sự kiện click cho itemView
             itemView.setOnClickListener(v -> {
                 if (listener != null) {
                     int position = getAdapterPosition();

@@ -2,7 +2,6 @@ package com.example.basicmobileprogramingproject.Activity.Fragment;
 
 import static android.app.Activity.RESULT_OK;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -11,10 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -23,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -34,18 +30,14 @@ import com.example.basicmobileprogramingproject.Entity.UserEntity;
 import com.example.basicmobileprogramingproject.Entity.DatabaseHandler;
 import com.example.basicmobileprogramingproject.Model.AccountModel;
 import com.example.basicmobileprogramingproject.Model.UserModel;
-import com.example.basicmobileprogramingproject.Model.UserModel;
 import com.example.basicmobileprogramingproject.R;
 import com.example.basicmobileprogramingproject.Utils.AlertDialogUtils;
-import com.example.basicmobileprogramingproject.Utils.DateUtils;
 import com.example.basicmobileprogramingproject.Utils.RamdomUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class UserManagementFragment extends Fragment {
@@ -77,7 +69,7 @@ public class UserManagementFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.user_management, container, false);
+        view = inflater.inflate(R.layout.user_management_fragment, container, false);
 
         clickedUserId = 0;
         edtName = view.findViewById(R.id.edtName);

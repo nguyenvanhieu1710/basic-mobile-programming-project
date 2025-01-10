@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:backgroundTint="#FFFFFF"
+    android:elevation="6dp"
+    app:cardCornerRadius="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <!-- News Image -->
+        <ImageView
+            android:id="@+id/imgNews"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="12dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/anh_nen" />
+
+        <!-- News Title -->
+        <TextView
+            android:id="@+id/txtNewsTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_toEndOf="@id/imgNews"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="News Title"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- Posting Date -->
+        <TextView
+            android:id="@+id/txtPostingDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtNewsTitle"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
+            android:layout_toEndOf="@id/imgNews"
+            android:text="12/12/2024"
+            android:textColor="#888888"
+            android:textSize="14sp" />
+
+        <!-- News Content -->
+        <TextView
+            android:id="@+id/txtNewsContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtPostingDate"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
+            android:layout_toEndOf="@id/imgNews"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:text="This is the summary of the content. It should be short and concise."
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <!-- Edit Button -->
+        <ImageButton
+            android:id="@+id/btnEditNews"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_below="@id/txtNewsContent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="4dp"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="Edit News"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_edit_blue"
+            app:tint="@color/blue" />
+
+        <!-- Delete Button -->
+        <ImageButton
+            android:id="@+id/btnDeleteNews"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_alignTop="@id/btnEditNews"
+            android:layout_toStartOf="@id/btnEditNews"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="Delete News"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_delete_white"
+            app:tint="@color/red" />
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

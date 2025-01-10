@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightGray">
+
+    <!-- RecyclerView for Messages -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewMessages"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@id/messageInputLayout"
+        android:layout_alignParentTop="true"
+        android:clipToPadding="false"
+        android:padding="8dp"
+        android:scrollbars="none" />
+
+    <!-- Message Input Layout -->
+    <LinearLayout
+        android:id="@+id/messageInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:elevation="4dp"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <!-- Attachment Button -->
+        <ImageButton
+            android:id="@+id/btnAttachment"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="5dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Attach"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_attachment_blue"
+            app:tint="@color/blue" />
+
+        <!-- Input Field -->
+        <EditText
+            android:id="@+id/editTextMessage"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_edittext"
+            android:hint="Enter message..."
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <!-- Send Button -->
+        <ImageButton
+            android:id="@+id/btnSendMessage"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Send"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_sent_blue"
+            app:tint="@color/blue" />
+    </LinearLayout>
+</RelativeLayout>

@@ -4,66 +4,72 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.example.basicmobileprogramingproject.Adapter.AccountAdapter;
-import com.example.basicmobileprogramingproject.Adapter.ImportBillAdapter;
-import com.example.basicmobileprogramingproject.Entity.AccountEntity;
-import com.example.basicmobileprogramingproject.Entity.ImportBillEntity;
-import com.example.basicmobileprogramingproject.Model.AccountModel;
-import com.example.basicmobileprogramingproject.Model.ImportBillModel;
-import com.example.basicmobileprogramingproject.Model.ImportBillModel;
+import com.example.basicmobileprogramingproject.Adapter.NewsAdapter;
+import com.example.basicmobileprogramingproject.Adapter.NewsAdapter;
+import com.example.basicmobileprogramingproject.Entity.NewsEntity;
+import com.example.basicmobileprogramingproject.Entity.NewsEntity;
+import com.example.basicmobileprogramingproject.Model.NewsModel;
+import com.example.basicmobileprogramingproject.Model.NewsModel;
 import com.example.basicmobileprogramingproject.R;
 import com.example.basicmobileprogramingproject.Utils.AlertDialogUtils;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class ImportBillFragment extends Fragment {
+public class NewsFragment extends Fragment {
     View view;
     private EditText edtSearch;
-    private ImageButton btnSearch;
     private ImageView btnClear;
-    private RecyclerView rvImportBills;
-    private ImportBillAdapter importBillAdapter;
-    private ArrayList<ImportBillModel> importBillList;
-    private ImportBillEntity importBillEntity;
-    private FloatingActionButton fabAddImportBill;
+    private ImageButton btnSearch;
+    private RecyclerView rvNews;
+    private Button btnAddNews, btnEditNews, btnDeleteNews;
+    NewsEntity newsEntity;
+    ArrayList<NewsModel> newsList;
+    NewsAdapter newsAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.activity_import_bill, container, false);
+        view = inflater.inflate(R.layout.activity_news_management, container, false);
         // mapping id
-        edtSearch = view.findViewById(R.id.edtSearch);
-        btnSearch = view.findViewById(R.id.btnSearch);
-        btnClear = view.findViewById(R.id.btnClear);
-        handleSearch();
-        fabAddImportBill = view.findViewById(R.id.fabAddImportBill);
-        rvImportBills = view.findViewById(R.id.rvImportBills);
+        rvNews = view.findViewById(R.id.rv_news);
+        btnAddNews = view.findViewById(R.id.btn_add_news);
+        btnEditNews = view.findViewById(R.id.btn_edit_news);
+        btnDeleteNews = view.findViewById(R.id.btn_delete_news);
 
-        importBillList = importBillEntity.getImportBillList();
-        importBillAdapter = new ImportBillAdapter(getContext(), importBillList);
-        uploadDataToRecyclerViewImportBill();
-        
+        edtSearch = view.findViewById(R.id.edtSearch);
+        btnClear = view.findViewById(R.id.btnClear);
+        btnSearch = view.findViewById(R.id.btnSearch);
+        handleSearch();
+
+        newsEntity = new NewsEntity(getContext());
+        newsList = newsEntity.getNewsList();
+        if (newsList.isEmpty()) {
+            AlertDialogUtils.showInfoDialog(getContext(), "No news found");
+        }
+
+        newsAdapter = new NewsAdapter(getContext(), newsList);
+        uploadDataToRecyclerViewNews();
+
         return view;
     }
 
-    public void uploadDataToRecyclerViewImportBill() {
+    public void uploadDataToRecyclerViewNews() {
         int numberOfColumns = 1; // Số cột bạn muốn hiển thị
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(numberOfColumns, StaggeredGridLayoutManager.VERTICAL);
-        rvImportBills.setLayoutManager(layoutManager);
-        rvImportBills.setAdapter(importBillAdapter);
+        rvNews.setLayoutManager(layoutManager);
+        rvNews.setAdapter(newsAdapter);
     }
-
+    
     public void handleSearch() {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,9 +79,9 @@ public class ImportBillFragment extends Fragment {
                     AlertDialogUtils.showErrorDialog(getContext(), "Please enter search keyword");
                     return;
                 }
-                ArrayList<ImportBillModel> searchedImportBillList = importBillEntity.getSearchedImportBillList(searchKeyword);
-                importBillAdapter.updateImportBillList(searchedImportBillList);
-                importBillAdapter.notifyDataSetChanged();
+                ArrayList<NewsModel> searchedNewsList = newsEntity.getSearchedNewsList(searchKeyword);
+                newsAdapter.updateNewsList(searchedNewsList);
+                newsAdapter.notifyDataSetChanged();
             }
         });
         btnClear.setOnClickListener(new View.OnClickListener() {

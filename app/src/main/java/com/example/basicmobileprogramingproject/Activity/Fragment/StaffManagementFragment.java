@@ -33,7 +33,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.example.basicmobileprogramingproject.Adapter.StaffAdapter;
 import com.example.basicmobileprogramingproject.Entity.AccountEntity;
 import com.example.basicmobileprogramingproject.Entity.StaffEntity;
-import com.example.basicmobileprogramingproject.Entity.StaffEntity;
 import com.example.basicmobileprogramingproject.Entity.DatabaseHandler;
 import com.example.basicmobileprogramingproject.Model.AccountModel;
 
@@ -77,7 +76,7 @@ public class StaffManagementFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.staff_management, container, false);
+        view = inflater.inflate(R.layout.staff_management_fragment, container, false);
 
         clickedStaffId = 0;
         edtName = view.findViewById(R.id.edtName);

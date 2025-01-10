@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomChartView">
+        <attr name="chartType" format="enum">
+            <enum name="BAR_CHART" value="0"/>
+            <enum name="LINE_CHART" value="1"/>
+            <enum name="PIE_CHART" value="2"/>
+        </attr>
+    </declare-styleable>
+
+</resources>

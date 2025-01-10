@@ -47,7 +47,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         UserModel user = userList.get(position);
         holder.userName.setText(user.Name);
         holder.userBirthday.setText(String.valueOf(user.Birthday));
-        holder.userImage.setImageBitmap(BitmapFactory.decodeFile(user.Image));
+
+        if(user.Image != null && !user.Image.isEmpty()){
+            holder.userImage.setImageBitmap(BitmapFactory.decodeFile(user.Image));
+        }
+        else{
+            holder.userImage.setImageResource(R.drawable.anh_nen);
+        }
     }
 
     @Override
@@ -71,7 +77,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             userName = itemView.findViewById(R.id.user_name);
             userBirthday = itemView.findViewById(R.id.birthday_of_user);
 
-            // Gán sự kiện click cho itemView
             itemView.setOnClickListener(v -> {
                 if (listener != null) {
                     int position = getAdapterPosition();

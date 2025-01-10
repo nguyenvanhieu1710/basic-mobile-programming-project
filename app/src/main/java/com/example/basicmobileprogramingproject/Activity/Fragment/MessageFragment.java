@@ -4,36 +4,44 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.basicmobileprogramingproject.Adapter.AccountAdapter;
-import com.example.basicmobileprogramingproject.Entity.AccountEntity;
-import com.example.basicmobileprogramingproject.Model.AccountModel;
+import com.example.basicmobileprogramingproject.Adapter.MessageAdapter;
+import com.example.basicmobileprogramingproject.Model.MessageModel;
 import com.example.basicmobileprogramingproject.R;
-import com.example.basicmobileprogramingproject.Utils.AlertDialogUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MessageFragment extends Fragment {
-    View view;
+    private RecyclerView recyclerViewMessages;
+    private MessageAdapter messageAdapter;
+    private List<MessageModel> messageList;
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.account_list, container, false);
-        // mapping id
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_message, container, false);
 
-        AccountEntity accountEntity = new AccountEntity(getContext());
-        ArrayList<AccountModel> accountList = accountEntity.getAccountList();
-        if (accountList.isEmpty()) {
-            AlertDialogUtils.showInfoDialog(getContext(), "No account found");
-        }
+        recyclerViewMessages = view.findViewById(R.id.recyclerViewMessages);
+        recyclerViewMessages.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        ListView lvAccounts = view.findViewById(R.id.lvAccounts);
-        AccountAdapter adapter = new AccountAdapter(getContext(), R.layout.account_item, accountList);
-        lvAccounts.setAdapter(adapter);
+        // Dữ liệu mẫu
+        int currentUserId = 1; // ID của người dùng hiện tại
+        messageList = new ArrayList<>();
+        messageList.add(new MessageModel(1, "Hello!", "10:30 AM", 1, 2, false));
+        messageList.add(new MessageModel(2, "Hi, how can I help you?", "10:31 AM", 2, 1, false));
+        messageList.add(new MessageModel(3, "I have a question about my order.", "10:32 AM", 1, 2, false));
+        messageList.add(new MessageModel(4, "Sure, please provide the details.", "10:33 AM", 2, 1, false));
+
+        // Gắn adapter
+        messageAdapter = new MessageAdapter(getContext(), messageList, currentUserId);
+        recyclerViewMessages.setAdapter(messageAdapter);
 
         return view;
     }

@@ -4,64 +4,72 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.basicmobileprogramingproject.Adapter.AccountAdapter;
-import com.example.basicmobileprogramingproject.Adapter.ImportBillAdapter;
 import com.example.basicmobileprogramingproject.Entity.AccountEntity;
-import com.example.basicmobileprogramingproject.Entity.ImportBillEntity;
 import com.example.basicmobileprogramingproject.Model.AccountModel;
-import com.example.basicmobileprogramingproject.Model.ImportBillModel;
-import com.example.basicmobileprogramingproject.Model.ImportBillModel;
+import com.example.basicmobileprogramingproject.Model.AccountModel;
 import com.example.basicmobileprogramingproject.R;
 import com.example.basicmobileprogramingproject.Utils.AlertDialogUtils;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class ImportBillFragment extends Fragment {
+public class AccountFragment extends Fragment {
     View view;
+    private LinearLayout layoutSearchBar, accountActionButtons;
     private EditText edtSearch;
-    private ImageButton btnSearch;
     private ImageView btnClear;
-    private RecyclerView rvImportBills;
-    private ImportBillAdapter importBillAdapter;
-    private ArrayList<ImportBillModel> importBillList;
-    private ImportBillEntity importBillEntity;
-    private FloatingActionButton fabAddImportBill;
+    private ImageButton btnSearch;
+    private RecyclerView rvAccountList;
+    private Button btnAddAccount, btnEditAccount, btnDeleteAccount;
+    AccountEntity accountEntity;
+    ArrayList<AccountModel> accountList;
+    AccountAdapter accountAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.activity_import_bill, container, false);
+        view = inflater.inflate(R.layout.activity_account_management, container, false);
         // mapping id
-        edtSearch = view.findViewById(R.id.edtSearch);
-        btnSearch = view.findViewById(R.id.btnSearch);
-        btnClear = view.findViewById(R.id.btnClear);
-        handleSearch();
-        fabAddImportBill = view.findViewById(R.id.fabAddImportBill);
-        rvImportBills = view.findViewById(R.id.rvImportBills);
+        layoutSearchBar = view.findViewById(R.id.layout_search_bar);
+        rvAccountList = view.findViewById(R.id.rv_account_list);
+        accountActionButtons = view.findViewById(R.id.account_action_buttons);
+        btnAddAccount = view.findViewById(R.id.btn_add_account);
+        btnEditAccount = view.findViewById(R.id.btn_edit_account);
+        btnDeleteAccount = view.findViewById(R.id.btn_delete_account);
 
-        importBillList = importBillEntity.getImportBillList();
-        importBillAdapter = new ImportBillAdapter(getContext(), importBillList);
-        uploadDataToRecyclerViewImportBill();
-        
+        edtSearch = view.findViewById(R.id.edtSearch);
+        btnClear = view.findViewById(R.id.btnClear);
+        btnSearch = view.findViewById(R.id.btnSearch);
+        handleSearch();
+
+        accountEntity = new AccountEntity(getContext());
+        accountList = accountEntity.getAccountList();
+        if (accountList.isEmpty()) {
+            AlertDialogUtils.showInfoDialog(getContext(), "No account found");
+        }
+
+        accountAdapter = new AccountAdapter(getContext(), accountList);
+        uploadDataToRecyclerViewAccount();
+
         return view;
     }
 
-    public void uploadDataToRecyclerViewImportBill() {
+    public void uploadDataToRecyclerViewAccount() {
         int numberOfColumns = 1; // Số cột bạn muốn hiển thị
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(numberOfColumns, StaggeredGridLayoutManager.VERTICAL);
-        rvImportBills.setLayoutManager(layoutManager);
-        rvImportBills.setAdapter(importBillAdapter);
+        rvAccountList.setLayoutManager(layoutManager);
+        rvAccountList.setAdapter(accountAdapter);
     }
 
     public void handleSearch() {
@@ -73,9 +81,9 @@ public class ImportBillFragment extends Fragment {
                     AlertDialogUtils.showErrorDialog(getContext(), "Please enter search keyword");
                     return;
                 }
-                ArrayList<ImportBillModel> searchedImportBillList = importBillEntity.getSearchedImportBillList(searchKeyword);
-                importBillAdapter.updateImportBillList(searchedImportBillList);
-                importBillAdapter.notifyDataSetChanged();
+                ArrayList<AccountModel> searchedAccountList = accountEntity.getSearchedAccountList(searchKeyword);
+                accountAdapter.updateAccountList(searchedAccountList);
+                accountAdapter.notifyDataSetChanged();
             }
         });
         btnClear.setOnClickListener(new View.OnClickListener() {

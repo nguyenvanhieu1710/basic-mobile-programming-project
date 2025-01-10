@@ -158,5 +158,11 @@ public class OrderEntity {
             return false; // Trả về false nếu có lỗi xảy ra
         }
     }
+
+    public ArrayList<OrderModel> getSearchedOrderList(String searchKeyword) {
+        ArrayList<OrderModel> orderList = getOrderList();
+        ArrayList<OrderModel> searchedOrderList = new ArrayList<>();
+        return searchedOrderList;
+    }
 }
 
