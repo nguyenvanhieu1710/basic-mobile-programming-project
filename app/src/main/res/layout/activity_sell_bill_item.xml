@@ -23,7 +23,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tvUser"
+            android:id="@+id/tvUserId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -32,7 +32,7 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/tvStaff"
+            android:id="@+id/tvStaffId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -66,32 +66,5 @@
             android:text="Receiver address: 123 Đường ABC, TP HCM"
             android:textColor="@color/black"
             android:textSize="14sp" />
-
-        <!-- Actions -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnEditOrder"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/blue"
-                android:text="Fix"
-                android:textColor="@android:color/white" />
-
-            <Button
-                android:id="@+id/btnDeleteOrder"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/red"
-                android:text="Delete"
-                android:textColor="@android:color/white" />
-        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

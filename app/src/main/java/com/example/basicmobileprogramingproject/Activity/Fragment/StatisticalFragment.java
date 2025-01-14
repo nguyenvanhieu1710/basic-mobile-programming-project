@@ -107,11 +107,20 @@ public class StatisticalFragment extends Fragment {
                 int yPosition = 50;
 
                 // Thêm các thông tin thống kê vào PDF
-                canvas.drawText("Total Revenue: " + txtTotalRevenue.getText().toString(), 20, yPosition, paint);
+                double totalRevenue = 0;
+                for (OrderDetailModel orderDetail : orderDetailList) {
+                    totalRevenue += orderDetail.Price * orderDetail.Quantity;
+                }
+                int totalOrders = orderList.size();
+                int totalUsers = userList.size();
+                int totalProducts = productList.size();
+                canvas.drawText("Total Revenue: " + String.format("%.2f", totalRevenue) + " USD", 20, yPosition, paint);
                 yPosition += 20;
-                canvas.drawText("Total Orders: " + txtTotalOrders.getText().toString(), 20, yPosition, paint);
+                canvas.drawText("Total Orders: " + totalOrders, 20, yPosition, paint);
                 yPosition += 20;
-                canvas.drawText("Total Users: " + txtTotalUsers.getText().toString(), 20, yPosition, paint);
+                canvas.drawText("Total Users: " + totalUsers, 20, yPosition, paint);
+                yPosition += 20;
+                canvas.drawText("Total Products: " + totalProducts, 20, yPosition, paint);
                 yPosition += 20;
 
                 // Thêm danh sách các sản phẩm bán chạy nhất

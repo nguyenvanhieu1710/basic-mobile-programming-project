@@ -56,28 +56,46 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="450dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <CheckBox
-                android:id="@+id/checkboxSelectAll"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select All" />
+                android:orientation="horizontal">
+
+                <!-- Select All Checkbox -->
+                <CheckBox
+                    android:id="@+id/checkboxSelectAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Select All" />
+
+                <!-- Space to push the button to the end -->
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <!-- Delete Button -->
+                <ImageButton
+                    android:id="@+id/btnDeleteSelected"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:backgroundTint="@color/lightBlue"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/icon_trash_white" />
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewProductsInTheCart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:divider="@android:color/darker_gray"
-                android:dividerHeight="1dp" />
-
-
+                android:layout_weight="1" />
         </LinearLayout>
 
     </ScrollView>

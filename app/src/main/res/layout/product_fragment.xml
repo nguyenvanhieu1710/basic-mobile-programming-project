@@ -201,7 +201,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">'
+                android:padding="16dp">
 
                 <ImageView
                     android:id="@+id/imgProductImage"
@@ -333,7 +333,7 @@
                     android:textSize="16sp" />
 
                 <ImageView
-                    android:id="@+id/btnClose"
+                    android:id="@+id/btnCloseLinearLayoutAddAndEditProduct"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -454,7 +454,7 @@
                 </LinearLayout>
 
                 <ImageView
-                    android:id="@+id/btnExit"
+                    android:id="@+id/btnExitLinearLayoutProductDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"

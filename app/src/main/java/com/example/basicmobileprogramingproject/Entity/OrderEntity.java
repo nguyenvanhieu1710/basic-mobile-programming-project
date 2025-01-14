@@ -57,7 +57,7 @@ public class OrderEntity {
         ArrayList<OrderModel> orderList = getOrderList();
         ArrayList<OrderModel> orderListForStaff = new ArrayList<>();
         for (OrderModel order : orderList) {
-            if (order.OrderStatus.equals("Waiting for confirmation")) {
+            if (order.OrderStatus.equals("Wait for confirmation")) {
                 orderListForStaff.add(order);
             }
         }

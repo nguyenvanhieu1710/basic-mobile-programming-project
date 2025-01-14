@@ -67,8 +67,8 @@ public class ImportBillAdapter extends RecyclerView.Adapter<ImportBillAdapter.Vi
         public ViewHolder(@NonNull View itemView, ImportBillAdapter.OnItemClickListener listener) {
             super(itemView);
             tvImportBillId = itemView.findViewById(R.id.tvImportBillId);
-            tvSupplier = itemView.findViewById(R.id.tvSupplier);
-            tvStaff = itemView.findViewById(R.id.tvStaff);
+            tvSupplier = itemView.findViewById(R.id.tvSupplierId);
+            tvStaff = itemView.findViewById(R.id.tvStaffId);
             tvTotalAmount = itemView.findViewById(R.id.tvTotalAmount);
             tvInputDay = itemView.findViewById(R.id.tvInputDay);
 

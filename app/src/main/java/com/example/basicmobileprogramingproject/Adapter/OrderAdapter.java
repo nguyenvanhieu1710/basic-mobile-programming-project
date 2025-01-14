@@ -113,7 +113,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             tvTotalAmount = itemView.findViewById(R.id.tvTotalAmount);
             btnConfirm = itemView.findViewById(R.id.btnConfirm);
 
-            // Gán sự kiện click cho itemView
             itemView.setOnClickListener(v -> {
                 if (onItemClickListener != null) {
                     int position = getAdapterPosition();

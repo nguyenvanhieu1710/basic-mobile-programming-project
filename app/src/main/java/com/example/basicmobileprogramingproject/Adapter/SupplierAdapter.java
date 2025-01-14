@@ -38,17 +38,17 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHo
     @NonNull
     @Override
     public SupplierAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.user_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.activity_supplier_item, parent, false);
         return new SupplierAdapter.ViewHolder(view, onItemClickListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull SupplierAdapter.ViewHolder holder, int position) {
         SupplierModel supplier = supplierlList.get(position);
-        holder.textViewSupplierName.setText(supplier.SupplierName);
         holder.imageViewSupplier.setImageResource(R.drawable.icon_user_white);
-//        holder.textViewSupplierBirthday.setText(supplier.PhoneNumber);
-//        holder.imageViewSupplier.setImageBitmap(BitmapFactory.decodeFile(supplier.ImagePath));
+        holder.textViewSupplierName.setText(supplier.SupplierName);
+        holder.textViewPhoneNumber.setText(supplier.PhoneNumber);
+        holder.textViewAddress.setText(supplier.Address);
     }
 
     @Override
@@ -62,16 +62,15 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.ViewHo
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageViewSupplier;
-        TextView textViewSupplierName;
-        TextView textViewSupplierBirthday;
+        TextView textViewSupplierName, textViewPhoneNumber, textViewAddress;
 
         public ViewHolder(@NonNull View itemView, SupplierAdapter.OnItemClickListener listener) {
             super(itemView);
-            imageViewSupplier = itemView.findViewById(R.id.user_image);
-            textViewSupplierName = itemView.findViewById(R.id.user_name);
-            textViewSupplierBirthday = itemView.findViewById(R.id.birthday_of_user);
+            imageViewSupplier = itemView.findViewById(R.id.imageViewSupplier);
+            textViewSupplierName = itemView.findViewById(R.id.textViewSupplierName);
+            textViewPhoneNumber = itemView.findViewById(R.id.textViewPhoneNumber);
+            textViewAddress = itemView.findViewById(R.id.textViewAddress);
 
-            // Gán sự kiện click cho itemView
             itemView.setOnClickListener(v -> {
                 if (listener != null) {
                     int position = getAdapterPosition();

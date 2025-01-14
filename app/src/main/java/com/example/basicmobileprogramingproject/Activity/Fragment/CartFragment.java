@@ -44,7 +44,7 @@ public class CartFragment extends Fragment {
     Button btnCheckout;
     EditText edtSearch;
     ImageView btnClear;
-    ImageButton btnSearch;
+    ImageButton btnSearch, btnDeleteSelected;
     CheckBox checkboxSelectAll;
     RecyclerView recyclerViewProductsInTheCart;
     TextView textViewTotalAmount;
@@ -67,6 +67,7 @@ public class CartFragment extends Fragment {
         btnClear = view.findViewById(R.id.btnClear);
         btnSearch = view.findViewById(R.id.btnSearch);
         checkboxSelectAll = view.findViewById(R.id.checkboxSelectAll);
+        btnDeleteSelected = view.findViewById(R.id.btnDeleteSelected);
         recyclerViewProductsInTheCart = view.findViewById(R.id.recyclerViewProductsInTheCart);
         textViewTotalAmount = view.findViewById(R.id.textViewTotalAmount);
         btnCheckout = view.findViewById(R.id.btnCheckout);
@@ -121,6 +122,31 @@ public class CartFragment extends Fragment {
     }
 
     public void handleEventsClickButton() {
+        btnDeleteSelected.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<CartModel> selectedItems = new ArrayList<>();
+
+                for (CartModel cartItem : cartList) {
+                    if (cartItem.isSelected()) {
+                        selectedItems.add(cartItem);
+                    }
+                }
+
+                if (selectedItems.isEmpty()) {
+                    AlertDialogUtils.showErrorDialog(getContext(), "Please select at least one item to delete");
+                    return;
+                }
+
+                for (CartModel cartItem : selectedItems) {
+                    cartEntity.deleteCart(cartItem);
+                    cartList.remove(cartItem);
+                }
+
+                cartAdapter.notifyDataSetChanged();
+            }
+        });
+
         btnCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

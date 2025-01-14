@@ -1,57 +1,34 @@
 package com.example.basicmobileprogramingproject.Activity.Fragment;
 
-import static android.app.Activity.RESULT_OK;
-
-import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 
-import com.example.basicmobileprogramingproject.Adapter.SupplierAdapter;
 import com.example.basicmobileprogramingproject.Adapter.SupplierAdapter;
 import com.example.basicmobileprogramingproject.Entity.SupplierEntity;
 import com.example.basicmobileprogramingproject.Entity.DatabaseHandler;
 
 import com.example.basicmobileprogramingproject.Model.SupplierModel;
-import com.example.basicmobileprogramingproject.Model.SupplierModel;
-import com.example.basicmobileprogramingproject.Model.SupplierModel;
 
 import com.example.basicmobileprogramingproject.R;
 import com.example.basicmobileprogramingproject.Utils.AlertDialogUtils;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 public class SupplierFragment extends Fragment {
@@ -68,10 +45,6 @@ public class SupplierFragment extends Fragment {
     DatabaseHandler databaseHandler;
     View view;
     Integer clickedSupplierId;
-    static final int PICK_IMAGE = 1;
-    Uri imageUri;
-    String imagePath;
-    String imageName;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,7 +55,7 @@ public class SupplierFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.supplier_fragment, container, false);
+        view = inflater.inflate(R.layout.activity_supplier, container, false);
         // mapping id
         clickedSupplierId = 0;
         edtSupplierName = view.findViewById(R.id.edtSupplierName);
@@ -162,11 +135,11 @@ public class SupplierFragment extends Fragment {
     }
 
     public void uploadDataToRecyclerViewSupplier() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerViewSupplier.setLayoutManager(layoutManager);
+        int numberOfColumns = 2; // Số cột bạn muốn hiển thị
+        StaggeredGridLayoutManager _staggeredGridLayoutManager = new StaggeredGridLayoutManager(numberOfColumns, StaggeredGridLayoutManager.VERTICAL);
+        recyclerViewSupplier.setLayoutManager(_staggeredGridLayoutManager);
         recyclerViewSupplier.setAdapter(supplierAdapter);
 
-        int numberOfColumns = 2; // Số cột bạn muốn hiển thị
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(numberOfColumns, StaggeredGridLayoutManager.VERTICAL);
         recyclerViewSupplierHasBeenDeleted.setLayoutManager(staggeredGridLayoutManager);
         recyclerViewSupplierHasBeenDeleted.setAdapter(supplierListingHasBeenDeletedAdapter);
@@ -265,6 +238,8 @@ public class SupplierFragment extends Fragment {
                 boolean isCheck = supplierEntity.updateSupplier(newSupplier);
                 if (isCheck) {
                     AlertDialogUtils.showSuccessDialog(getContext(), "Update Supplier success");
+                    reloadData();
+                    recyclerViewSupplier.setVisibility(View.VISIBLE);
                     linearLayoutAddAndEditSupplier.setVisibility(View.GONE);
                 } else {
                     AlertDialogUtils.showErrorDialog(getContext(), "Update Supplier fail");
@@ -306,8 +281,6 @@ public class SupplierFragment extends Fragment {
                 linearLayoutAddAndEditSupplier.setVisibility(View.GONE);
                 linearLayoutSupplierDetail.setVisibility(View.GONE);
                 recyclerViewSupplier.setVisibility(View.GONE);
-
-//                AlertDialogUtils.showInfoDialog(getContext(), "success");
             }
         });
         btnRestoreSupplier.setOnClickListener(new View.OnClickListener() {

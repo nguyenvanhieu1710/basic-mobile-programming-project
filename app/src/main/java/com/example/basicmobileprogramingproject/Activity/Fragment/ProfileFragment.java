@@ -73,6 +73,11 @@ public class ProfileFragment extends Fragment {
     public void uploadDataToView() {
         AccountModel onlineAccount = accountEntity.getOnlineAccount();
         ArrayList<UserModel> userList = userEntity.getUserList();
+        // format for spinner gender
+        String[] genders = {"Male", "Female"};
+        ArrayAdapter<String> genderAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, genders);
+        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerGender.setAdapter(genderAdapter);
         for (UserModel user : userList) {
             if (user.UserId == onlineAccount.AccountId) {
                 tvName.setText(user.Name);
@@ -80,8 +85,7 @@ public class ProfileFragment extends Fragment {
                 edtBirthday.setText(user.Birthday.toString());
                 edtPhoneNumber.setText(user.PhoneNumber);
 
-                ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinnerGender.getAdapter();
-                int position = adapter.getPosition(user.Gender);
+                int position = genderAdapter.getPosition(user.Gender);
                 spinnerGender.setSelection(position);
 
                 edtAddress.setText(user.Address);

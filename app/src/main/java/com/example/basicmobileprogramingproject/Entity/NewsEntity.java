@@ -128,14 +128,14 @@ public class NewsEntity {
     }
 
     public boolean insertNews(NewsModel newsModel) {
-        String sqlStatement = "INSERT INTO News (NewsName, Content, NewsImage, PostingDate, PersonPostingId, Deleted) " +
-                "VALUES ('" + newsModel.NewsName + "', " +
-                newsModel.Content + ", " +
-                newsModel.NewsImage + ", " +
-                "'" + newsModel.PostingDate + "', " +
-                "'" + newsModel.PersonPostingId + "', " +
+        String sqlStatement = "INSERT INTO News (NewsName, Content, NewsImage, PostingDate, PersonPostingId, Rate, Deleted) " +
+                "VALUES ('" + newsModel.NewsName + "', '" +
+                newsModel.Content + "', '" +
+                newsModel.NewsImage + "', '" +
+                newsModel.PostingDate + "', " +
+                newsModel.PersonPostingId + ", " +
+                5 + ", " +
                 (newsModel.Deleted ? 1 : 0) + ")";
-
         try {
             databaseHandler.executeSQL(sqlStatement);
             return true;
@@ -149,9 +149,9 @@ public class NewsEntity {
     public boolean updateNews(NewsModel newsModel) {
         String sqlStatement = "UPDATE News SET " +
                 "NewsName = '" + newsModel.NewsName + "', " +
-                "Content = " + newsModel.Content + ", " +
-                "NewsImage = " + newsModel.NewsImage + ", " +
-                "PostingDate = " + newsModel.PostingDate + ", " +
+                "Content = '" + newsModel.Content + "', " +
+                "NewsImage = '" + newsModel.NewsImage + "', " +
+                "PostingDate = '" + newsModel.PostingDate + "', " +
                 "PersonPostingId = " + newsModel.PersonPostingId + ", " +
                 "Deleted = " + (newsModel.Deleted ? 1 : 0) + " " +
                 "WHERE NewsId = " + newsModel.NewsId;

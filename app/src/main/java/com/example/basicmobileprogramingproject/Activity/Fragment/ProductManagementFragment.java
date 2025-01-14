@@ -70,7 +70,7 @@ public class ProductManagementFragment extends Fragment {
     int clickedProductId;
     int selectedCategoryId;
     static final int PICK_IMAGE = 1;
-    ImageView imgProductImage;
+    ImageView imgProductImage, btnExitLinearLayoutProductDetail, btnCloseLinearLayoutAddAndEditProduct;
     Uri imageUri;
     String imagePath;
     String imageName;
@@ -108,21 +108,16 @@ public class ProductManagementFragment extends Fragment {
         handleSelectProductImage();
 
         linearLayoutAddAndEditProduct = view.findViewById(R.id.linearLayoutAddAndEditProduct);
+        btnCloseLinearLayoutAddAndEditProduct = view.findViewById(R.id.btnCloseLinearLayoutAddAndEditProduct);
         linearLayoutProductDetail = view.findViewById(R.id.linearLayoutProductDetail);
+        btnExitLinearLayoutProductDetail = view.findViewById(R.id.btnExitLinearLayoutProductDetail);
         linearLayoutDeleteAndRestoreProduct = view.findViewById(R.id.linearLayoutDeleteAndRestoreProduct);
         linearLayoutDeletedProductDetail = view.findViewById(R.id.linearLayoutDeletedProductDetail);
 
         // call database
         databaseHandler = new DatabaseHandler(requireContext());
 
-//        databaseHandler.getDatabasePath();
-//        try {
-//            databaseHandler.createDatabase();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-
-// hide layout add product and layout product detail
+        // hide layout add product and layout product detail
         linearLayoutAddAndEditProduct.setVisibility(View.GONE);
         linearLayoutProductDetail.setVisibility(View.GONE);
         linearLayoutDeleteAndRestoreProduct.setVisibility(View.GONE);
@@ -308,7 +303,7 @@ public class ProductManagementFragment extends Fragment {
         });
     }
 
-    public void reloadData(){
+    public void reloadData() {
         productList = productEntity.getProductList();
         productAdapter.updateProductList(productList);
         productAdapter.notifyDataSetChanged();
@@ -433,6 +428,18 @@ public class ProductManagementFragment extends Fragment {
                 } else {
                     AlertDialogUtils.showErrorDialog(getContext(), "Delete actual product fail");
                 }
+            }
+        });
+        btnExitLinearLayoutProductDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linearLayoutProductDetail.setVisibility(View.GONE);
+            }
+        });
+        btnCloseLinearLayoutAddAndEditProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linearLayoutAddAndEditProduct.setVisibility(View.GONE);
             }
         });
     }

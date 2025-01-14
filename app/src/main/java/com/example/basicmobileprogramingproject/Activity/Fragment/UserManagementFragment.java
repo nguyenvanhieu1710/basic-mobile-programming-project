@@ -38,6 +38,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class UserManagementFragment extends Fragment {
@@ -165,22 +167,49 @@ public class UserManagementFragment extends Fragment {
             AlertDialogUtils.showErrorDialog(getContext(), "Please select image");
             return false;
         }
-        if (edtName.getText().toString().isEmpty()) {
+
+        String name = edtName.getText().toString().trim();
+        if (name.isEmpty()) {
             AlertDialogUtils.showErrorDialog(getContext(), "Please enter name");
             return false;
+        } else if (name.length() < 3) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Name must be at least 3 characters");
+            return false;
         }
-        if (edtPhoneNumber.getText().toString().isEmpty()) {
+
+        String phoneNumber = edtPhoneNumber.getText().toString().trim();
+        if (phoneNumber.isEmpty()) {
             AlertDialogUtils.showErrorDialog(getContext(), "Please enter phone number");
             return false;
-        }
-        if (edtBirthday.getText().toString().isEmpty()) {
-            AlertDialogUtils.showErrorDialog(getContext(), "Please enter birthday");
+        } else if (!phoneNumber.matches("^\\d{10}$")) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Phone number must be 10 digits");
             return false;
         }
+
+        String birthday = edtBirthday.getText().toString().trim();
+        if (birthday.isEmpty()) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Please enter birthday");
+            return false;
+        } else {
+            // Kiểm tra tính hợp lệ của ngày theo định dạng dd/MM/yyyy
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            sdf.setLenient(false); // Không cho phép ngày không hợp lệ (vd: 32/01/2023)
+            try {
+                sdf.parse(birthday); // Thử phân tích chuỗi thành ngày
+            } catch (ParseException e) {
+                AlertDialogUtils.showErrorDialog(getContext(), "Birthday must be in the format dd/MM/yyyy and valid");
+                return false;
+            }
+        }
+
         if (edtGender.getText().toString().isEmpty()) {
             AlertDialogUtils.showErrorDialog(getContext(), "Please enter gender");
             return false;
+        } else if (edtGender.getText().toString() != "Male" && edtGender.getText().toString() != "Female") {
+            AlertDialogUtils.showErrorDialog(getContext(), "Gender must be Male or Female");
+            return false;
         }
+
         if (edtAddress.getText().toString().isEmpty()) {
             AlertDialogUtils.showErrorDialog(getContext(), "Please enter address");
             return false;
@@ -197,6 +226,7 @@ public class UserManagementFragment extends Fragment {
         userAdapter.setOnItemClickListener(position -> {
             UserModel clickedUser = userList.get(position);
             linearLayoutUserDetail.setVisibility(View.VISIBLE);
+            linearLayoutAddAndEditUser.setVisibility(View.GONE);
 
             clickedUserId = clickedUser.UserId;
             textName.setText(clickedUser.Name);

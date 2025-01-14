@@ -199,10 +199,10 @@ public class PayFragment extends Fragment {
         spinnerStaff.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                UserModel selectedUser = (UserModel) parent.getItemAtPosition(position);
+                StaffModel selectedStaff = (StaffModel) parent.getItemAtPosition(position);
                 // get id from selectedUser
-                AlertDialogUtils.showInfoDialog(getContext(), "Selected Staff: " + selectedUser.UserId);
-                staffIdHasBeenSelected = selectedUser.UserId;
+                // AlertDialogUtils.showInfoDialog(getContext(), "Selected Staff: " + selectedStaff.StaffId);
+                staffIdHasBeenSelected = selectedStaff.StaffId;
             }
 
             @Override
@@ -217,7 +217,7 @@ public class PayFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 VoucherModel selectedVoucher = (VoucherModel) parent.getItemAtPosition(position);
                 // get id voucher from selectedVoucher
-                AlertDialogUtils.showInfoDialog(getContext(), "Selected Voucher: " + selectedVoucher.VoucherId);
+                // AlertDialogUtils.showInfoDialog(getContext(), "Selected Voucher: " + selectedVoucher.VoucherId);
                 voucherIdHasBeenSelected = selectedVoucher.VoucherId;
                 discountAmount = selectedVoucher.Price;
                 tvTotalAmount.setText("Total Amount: $" + (totalAmount - discountAmount));

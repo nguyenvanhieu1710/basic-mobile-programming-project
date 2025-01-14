@@ -230,6 +230,13 @@ public class HomeFragment extends Fragment {
                 }
                 // get online account
                 AccountModel onlineAccount = accountEntity.getOnlineAccount();
+                if(onlineAccount.Role == "Admin"){
+                    AlertDialogUtils.showErrorDialog(getContext(), "Admin cannot add to cart");
+                    return;
+                } else if (onlineAccount.Role == "Staff") {
+                    AlertDialogUtils.showErrorDialog(getContext(), "Staff cannot add to cart");
+                    return;
+                }
                 CartModel cartModel = new CartModel();
                 cartModel.UserId = onlineAccount.AccountId;
                 cartModel.ProductId = clickedProductId;

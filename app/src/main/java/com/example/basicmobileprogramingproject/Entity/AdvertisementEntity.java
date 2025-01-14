@@ -126,12 +126,11 @@ public class AdvertisementEntity {
 
     public boolean insertAdvertisement(AdvertisementModel advertisementModel) {
         String sqlStatement = "INSERT INTO Advertisement (AdvertisementName, AdvertisementImage, Location, AdvertiserId, Deleted) " +
-                "VALUES ('" + advertisementModel.AdvertisementName + "', " +
-                advertisementModel.AdvertisementImage + ", " +
-                advertisementModel.Location + ", " +
-                "'" + advertisementModel.AdvertiserId + "', " +
+                "VALUES ('" + advertisementModel.AdvertisementName + "', '" +
+                advertisementModel.AdvertisementImage + "', '" +
+                advertisementModel.Location + "', " +
+                advertisementModel.AdvertiserId + ", " +
                 (advertisementModel.Deleted ? 1 : 0) + ")";
-
         try {
             databaseHandler.executeSQL(sqlStatement);
             return true;
@@ -145,8 +144,8 @@ public class AdvertisementEntity {
     public boolean updateAdvertisement(AdvertisementModel advertisementModel) {
         String sqlStatement = "UPDATE Advertisement SET " +
                 "AdvertisementName = '" + advertisementModel.AdvertisementName + "', " +
-                "AdvertisementImage = " + advertisementModel.AdvertisementImage + ", " +
-                "Location = " + advertisementModel.Location + ", " +
+                "AdvertisementImage = '" + advertisementModel.AdvertisementImage + "', " +
+                "Location = '" + advertisementModel.Location + "', " +
                 "AdvertiserId = " + advertisementModel.AdvertiserId + ", " +
                 "Deleted = " + (advertisementModel.Deleted ? 1 : 0) + " " +
                 "WHERE AdvertisementId = " + advertisementModel.AdvertisementId;

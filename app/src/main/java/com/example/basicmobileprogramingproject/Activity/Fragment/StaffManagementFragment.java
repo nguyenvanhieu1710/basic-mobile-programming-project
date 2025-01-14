@@ -205,6 +205,7 @@ public class StaffManagementFragment extends Fragment {
         staffAdapter.setOnItemClickListener(position -> {
             StaffModel clickedStaff = staffList.get(position);
             linearLayoutStaffDetail.setVisibility(View.VISIBLE);
+            linearLayoutAddAndEditStaff.setVisibility(View.GONE);
 
             clickedStaffId = clickedStaff.StaffId;
             imageStaff.setImageURI(Uri.parse(clickedStaff.Image));
