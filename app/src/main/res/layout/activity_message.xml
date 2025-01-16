@@ -9,10 +9,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewMessages"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_above="@id/messageInputLayout"
         android:layout_alignParentTop="true"
-        android:clipToPadding="false"
+        android:clipToPadding="true"
         android:padding="8dp"
         android:scrollbars="none" />
 

@@ -192,8 +192,28 @@ public class ProductManagementFragment extends Fragment {
             AlertDialogUtils.showErrorDialog(getContext(), "Please enter quantity");
             return false;
         }
+        try {
+            int quantity = Integer.parseInt(edtQuantity.getText().toString().trim());
+            if (quantity <= 0) {
+                AlertDialogUtils.showErrorDialog(getContext(), "Quantity must be greater than zero.");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Quantity must be a valid number.");
+            return false;
+        }
         if (edtPrice.getText().toString().isEmpty()) {
             AlertDialogUtils.showErrorDialog(getContext(), "Please enter price");
+            return false;
+        }
+        try {
+            double price = Double.parseDouble(edtPrice.getText().toString().trim());
+            if (price <= 0) {
+                AlertDialogUtils.showErrorDialog(getContext(), "Price must be greater than zero.");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Price must be a valid number.");
             return false;
         }
         if (edtDescription.getText().toString().isEmpty()) {
@@ -466,7 +486,6 @@ public class ProductManagementFragment extends Fragment {
         });
     }
 
-
     private String copyImageToInternalStorage(Uri imageUri, String imageName) {
         String imagePath = null;
         try {
@@ -488,17 +507,6 @@ public class ProductManagementFragment extends Fragment {
             e.printStackTrace();
         }
         return imagePath;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null) {
-            imageUri = data.getData();
-            imageName = getFileName(imageUri); // Lấy tên ảnh gốc
-            imgProductImage.setImageURI(imageUri);
-            imagePath = copyImageToInternalStorage(imageUri, imageName);
-        }
     }
 
     private void deleteImageFromInternalStorage(String fileName) {
@@ -550,9 +558,18 @@ public class ProductManagementFragment extends Fragment {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(intent, PICK_IMAGE);
         });
-
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null) {
+            imageUri = data.getData();
+            imageName = getFileName(imageUri); // Lấy tên ảnh gốc
+            imgProductImage.setImageURI(imageUri);
+            imagePath = copyImageToInternalStorage(imageUri, imageName);
+        }
+    }
 }
 
 

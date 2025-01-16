@@ -134,6 +134,33 @@ public class SupplierFragment extends Fragment {
         return supplierModel;
     }
 
+    public boolean validateData() {
+        String supplierName = edtSupplierName.getText().toString().trim();
+        if (supplierName.isEmpty()) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Please enter supplier name");
+            return false;
+        } else if (supplierName.length() < 3) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Supplier name must be at least 3 characters");
+            return false;
+        }
+
+        String phoneNumber = edtPhoneNumber.getText().toString().trim();
+        if (phoneNumber.isEmpty()) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Please enter phone number");
+            return false;
+        } else if (!phoneNumber.matches("^\\d{10}$")) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Phone number must be 10 digits");
+            return false;
+        }
+
+        if (edtAddress.getText().toString().trim().isEmpty()) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Please enter address");
+            return false;
+        }
+
+        return true;
+    }
+
     public void uploadDataToRecyclerViewSupplier() {
         int numberOfColumns = 2; // Số cột bạn muốn hiển thị
         StaggeredGridLayoutManager _staggeredGridLayoutManager = new StaggeredGridLayoutManager(numberOfColumns, StaggeredGridLayoutManager.VERTICAL);
@@ -220,6 +247,9 @@ public class SupplierFragment extends Fragment {
         btnAddNewSupplier.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!validateData()) {
+                    return;
+                }
                 SupplierModel newSupplier = assignData();
                 boolean isCheck = supplierEntity.insertSupplier(newSupplier);
                 if (isCheck) {
@@ -234,6 +264,9 @@ public class SupplierFragment extends Fragment {
         btnEditSupplier.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!validateData()) {
+                    return;
+                }
                 SupplierModel newSupplier = assignData();
                 boolean isCheck = supplierEntity.updateSupplier(newSupplier);
                 if (isCheck) {

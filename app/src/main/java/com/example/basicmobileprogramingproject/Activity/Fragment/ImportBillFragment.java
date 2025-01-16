@@ -91,9 +91,6 @@ public class ImportBillFragment extends Fragment {
         linearLayoutDeleteAndRestoreImportBill = view.findViewById(R.id.linearLayoutDeleteAndRestoreImportBill);
         linearLayoutDeletedImportBillDetail = view.findViewById(R.id.linearLayoutDeletedImportBillDetail);
 
-        // call database
-        databaseHandler = new DatabaseHandler(requireContext());
-
         // get ImportBill list
         importBillEntity = new ImportBillEntity(getContext());
         importBillList = importBillEntity.getImportBillList();
@@ -196,7 +193,7 @@ public class ImportBillFragment extends Fragment {
 
     public void uploadNumberOfImportBillsDeleted() {
         badgeNumberOfImportBillsDeleted = view.findViewById(R.id.badgeNumberOfImportBillsDeleted);
-        badgeNumberOfImportBillsDeleted.setText(String.valueOf(importBillEntity.getImportBillList()));
+        badgeNumberOfImportBillsDeleted.setText("0");
     }
 
     public void handleEventsClickButton() {

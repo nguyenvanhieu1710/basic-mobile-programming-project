@@ -71,7 +71,6 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> 
             staffName = itemView.findViewById(R.id.staff_name);
             staffBirthday = itemView.findViewById(R.id.birthday_of_staff);
 
-            // Gán sự kiện click cho itemView
             itemView.setOnClickListener(v -> {
                 if (listener != null) {
                     int position = getAdapterPosition();

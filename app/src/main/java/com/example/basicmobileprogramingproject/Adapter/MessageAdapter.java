@@ -1,9 +1,11 @@
 package com.example.basicmobileprogramingproject.Adapter;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,6 +25,12 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private List<MessageModel> messageList;
     private int currentUserId;
 
+    private MessageAdapter.OnItemClickListener onItemClickListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
     public MessageAdapter(Context context, List<MessageModel> messageList, int currentUserId) {
         this.context = context;
         this.messageList = messageList;
@@ -32,24 +40,27 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public int getItemViewType(int position) {
         MessageModel message = messageList.get(position);
-        if (message.SenderId == currentUserId) { // currentUserId là ID người dùng hiện tại
+        if (message.SenderId == currentUserId) {
             return VIEW_TYPE_SENT; // Giá trị 1
         } else {
             return VIEW_TYPE_RECEIVED; // Giá trị 2
         }
     }
 
+    public void setOnItemClickListener(MessageAdapter.OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_SENT) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.activity_message_sent_item, parent, false);
-            return new SentMessageViewHolder(view);
+            return new SentMessageViewHolder(view, onItemClickListener);
         } else {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.activity_message_received_item, parent, false);
-            return new ReceivedMessageViewHolder(view);
+            return new ReceivedMessageViewHolder(view, onItemClickListener);
         }
     }
 
@@ -71,10 +82,19 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     static class SentMessageViewHolder extends RecyclerView.ViewHolder {
         TextView textMessage, textTime;
 
-        public SentMessageViewHolder(@NonNull View itemView) {
+        public SentMessageViewHolder(@NonNull View itemView, MessageAdapter.OnItemClickListener listener) {
             super(itemView);
             textMessage = itemView.findViewById(R.id.textViewSentMessage);
             textTime = itemView.findViewById(R.id.textViewSentTime);
+
+            itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(position);
+                    }
+                }
+            });
         }
 
         void bind(MessageModel message) {
@@ -86,10 +106,19 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     static class ReceivedMessageViewHolder extends RecyclerView.ViewHolder {
         TextView textMessage, textTime;
 
-        public ReceivedMessageViewHolder(@NonNull View itemView) {
+        public ReceivedMessageViewHolder(@NonNull View itemView, MessageAdapter.OnItemClickListener listener) {
             super(itemView);
             textMessage = itemView.findViewById(R.id.textViewReceivedMessage);
             textTime = itemView.findViewById(R.id.textViewReceivedTime);
+
+            itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(position);
+                    }
+                }
+            });
         }
 
         void bind(MessageModel message) {

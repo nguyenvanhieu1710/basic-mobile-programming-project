@@ -53,6 +53,40 @@ public class MessageEntity {
         return arrayList;
     }
 
+    public ArrayList<MessageModel> getMessagesForUser(int userId) {
+        ArrayList<MessageModel> arrayList = new ArrayList<>();
+        Cursor cursor = null;
+        String sqlStatement = "SELECT * FROM Message WHERE Deleted = 0 and (SenderId = " + userId + " or ReceiverId = " + userId + ")";
+
+        try {
+            cursor = databaseHandler.getData(sqlStatement);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    MessageModel messageModel = new MessageModel();
+                    messageModel.MessageId = cursor.getInt(cursor.getColumnIndexOrThrow("MessageId"));
+                    messageModel.Content = cursor.getString(cursor.getColumnIndexOrThrow("Content"));
+                    messageModel.Time = cursor.getString(cursor.getColumnIndexOrThrow("Time"));
+                    messageModel.SenderId = cursor.getInt(cursor.getColumnIndexOrThrow("SenderId"));
+                    messageModel.ReceiverId = cursor.getInt(cursor.getColumnIndexOrThrow("ReceiverId"));
+                    messageModel.Deleted = cursor.getInt(cursor.getColumnIndexOrThrow("Deleted")) == 1;
+
+                    arrayList.add(messageModel);
+                } while (cursor.moveToNext());
+            }
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            databaseHandler.closeDatabase();
+        }
+
+        return arrayList;
+    }
+
     public ArrayList<MessageModel> getMessageListingHasBeenDeleted() {
         ArrayList<MessageModel> arrayList = new ArrayList<>();
         Cursor cursor = null;
@@ -125,9 +159,9 @@ public class MessageEntity {
     }
 
     public boolean insertMessage(MessageModel messageModel) {
-        String sqlStatement = "INSERT INTO Message (MessageName, Content, Time, SenderId, ReceiverId, Deleted) " +
-                "VALUES ('" + messageModel.Content + "', " +
-                messageModel.Time + ", " +
+        String sqlStatement = "INSERT INTO Message (Content, Time, SenderId, ReceiverId, Deleted) " +
+                "VALUES ('" + messageModel.Content + "', '" +
+                messageModel.Time + "', " +
                 "'" + messageModel.SenderId + "', " +
                 "'" + messageModel.ReceiverId + "', " +
                 (messageModel.Deleted ? 1 : 0) + ")";
@@ -144,8 +178,8 @@ public class MessageEntity {
 
     public boolean updateMessage(MessageModel messageModel) {
         String sqlStatement = "UPDATE Message SET " +
-                "Content = " + messageModel.Content + ", " +
-                "Time = " + messageModel.Time + ", " +
+                "Content = '" + messageModel.Content + "', " +
+                "Time = '" + messageModel.Time + "', " +
                 "SenderId = " + messageModel.SenderId + ", " +
                 "ReceiverId = " + messageModel.ReceiverId + ", " +
                 "Deleted = " + (messageModel.Deleted ? 1 : 0) + " " +

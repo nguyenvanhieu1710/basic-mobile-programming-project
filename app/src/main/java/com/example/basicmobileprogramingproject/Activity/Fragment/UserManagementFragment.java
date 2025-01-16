@@ -32,15 +32,15 @@ import com.example.basicmobileprogramingproject.Model.AccountModel;
 import com.example.basicmobileprogramingproject.Model.UserModel;
 import com.example.basicmobileprogramingproject.R;
 import com.example.basicmobileprogramingproject.Utils.AlertDialogUtils;
+import com.example.basicmobileprogramingproject.Utils.DateUtils;
 import com.example.basicmobileprogramingproject.Utils.RamdomUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class UserManagementFragment extends Fragment {
     ImageButton btnSearch, btnTurnOnBlockDeleteUser;
@@ -108,10 +108,6 @@ public class UserManagementFragment extends Fragment {
         linearLayoutUserDetail = view.findViewById(R.id.linearLayoutUserDetail);
         linearLayoutDeleteAndRestoreUser = view.findViewById(R.id.linearLayoutDeleteAndRestoreUser);
         linearLayoutDeletedUserDetail = view.findViewById(R.id.linearLayoutDeletedUserDetail);
-
-        // call database
-        databaseHandler = new DatabaseHandler(requireContext());
-//        databaseHandler.getDatabasePath();
 
         // get user list
         userEntity = new UserEntity(getContext());
@@ -191,26 +187,23 @@ public class UserManagementFragment extends Fragment {
             AlertDialogUtils.showErrorDialog(getContext(), "Please enter birthday");
             return false;
         } else {
-            // Kiểm tra tính hợp lệ của ngày theo định dạng dd/MM/yyyy
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            sdf.setLenient(false); // Không cho phép ngày không hợp lệ (vd: 32/01/2023)
-            try {
-                sdf.parse(birthday); // Thử phân tích chuỗi thành ngày
-            } catch (ParseException e) {
-                AlertDialogUtils.showErrorDialog(getContext(), "Birthday must be in the format dd/MM/yyyy and valid");
+            Date date = DateUtils.parseDate(birthday);
+            if (date == null) {
+                AlertDialogUtils.showErrorDialog(getContext(), "Please enter a valid birthday in the format dd/MM/yyyy");
                 return false;
             }
         }
 
-        if (edtGender.getText().toString().isEmpty()) {
+        if (edtGender.getText().toString().trim().isEmpty()) {
             AlertDialogUtils.showErrorDialog(getContext(), "Please enter gender");
             return false;
-        } else if (edtGender.getText().toString() != "Male" && edtGender.getText().toString() != "Female") {
+        } else if (!edtGender.getText().toString().trim().equals("Male")
+                && !edtGender.getText().toString().trim().equals("Female")) {
             AlertDialogUtils.showErrorDialog(getContext(), "Gender must be Male or Female");
             return false;
         }
 
-        if (edtAddress.getText().toString().isEmpty()) {
+        if (edtAddress.getText().toString().trim().isEmpty()) {
             AlertDialogUtils.showErrorDialog(getContext(), "Please enter address");
             return false;
         }

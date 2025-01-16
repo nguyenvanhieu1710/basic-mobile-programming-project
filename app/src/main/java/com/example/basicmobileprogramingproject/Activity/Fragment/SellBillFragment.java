@@ -35,14 +35,13 @@ public class SellBillFragment extends Fragment {
     TextView txtDeletedSellBillId, badgeNumberOfSellBillsDeleted, txtSellBillId, tvTotalAmount, textDayBuy, textUserId, textStaffId, textTotalAmount, textOrderStatus, textDeliveryAddress;
     EditText edtSearch, edtUserId, edtStaffId, edtOrderStatus, edtDayBuy, edtDeliveryAddress, edtProductId, edtPrice, edtQuantity, edtDiscountAmount, edtVoucherId;
     ImageButton btnTurnOnBlockAddSellBill, btnSearch, btnTurnOnBlockDeleteSellBill;
-    ImageView btnClear, imgSellBillImage, btnExitLinearLayoutSellBillDetail, btnClose, btnCancel;
-    Button btnAddNewSellBill, btnFixSellBill, btnEditSellBill, btnDeleteSellBill, btnTurnOnBlockEditSellBill, btnRestoreSellBill, btnDeleteActualSellBill;
+    ImageView btnClear, btnExitLinearLayoutSellBillDetail, btnClose, btnCancel;
+    Button btnAddNewSellBill, btnFixSellBill, btnDeleteSellBill, btnTurnOnBlockEditSellBill, btnRestoreSellBill, btnDeleteActualSellBill;
     LinearLayout linearLayoutAddAndEditSellBill, linearLayoutSellBillDetail, linearLayoutDeleteAndRestoreSellBill, linearLayoutSellBillHasBeenDeleted, linearLayoutDeletedSellBillDetail;
     RecyclerView recyclerViewSellBill, recyclerViewSellBillHasBeenDeleted;
     SellBillAdapter sellBillAdapter, sellBillListingHasBeenDeletedAdapter;
     OrderEntity sellBillEntity, sellBillListingHasBeenDeletedEntity;
     ArrayList<OrderModel> sellBillList, sellBillListingHasBeenDeleted;
-    DatabaseHandler databaseHandler;
     View view;
     Integer clickedSellBillId;
 
@@ -96,9 +95,6 @@ public class SellBillFragment extends Fragment {
         linearLayoutDeleteAndRestoreSellBill = view.findViewById(R.id.linearLayoutDeleteAndRestoreSellBill);
         linearLayoutDeletedSellBillDetail = view.findViewById(R.id.linearLayoutDeletedSellBillDetail);
 
-        // call database
-        databaseHandler = new DatabaseHandler(requireContext());
-
         // get SellBill list
         sellBillEntity = new OrderEntity(getContext());
         sellBillList = sellBillEntity.getOrderList();
@@ -119,7 +115,6 @@ public class SellBillFragment extends Fragment {
         btnDeleteSellBill = view.findViewById(R.id.btnDeleteSellBill);
         btnTurnOnBlockEditSellBill = view.findViewById(R.id.btnTurnOnBlockEditSellBill);
         btnAddNewSellBill = view.findViewById(R.id.btnAddNewSellBill);
-        btnEditSellBill = view.findViewById(R.id.btnFixSellBill);
         btnFixSellBill = view.findViewById(R.id.btnFixSellBill);
         btnTurnOnBlockAddSellBill = view.findViewById(R.id.btnTurnOnBlockAddSellBill);
         handleEventsClickButton();
@@ -190,8 +185,8 @@ public class SellBillFragment extends Fragment {
             clickedSellBillId = clickedSellBill.OrderId;
             txtDeletedSellBillId.setText(String.valueOf(clickedSellBill.OrderId));
 
-            edtUserId.setText(clickedSellBill.UserId);
-            edtStaffId.setText(clickedSellBill.StaffId);
+            edtUserId.setText(String.valueOf(clickedSellBill.UserId));
+            edtStaffId.setText(String.valueOf(clickedSellBill.StaffId));
             edtOrderStatus.setText(clickedSellBill.OrderStatus);
             edtDayBuy.setText(clickedSellBill.DayBuy);
             edtDeliveryAddress.setText(clickedSellBill.DeliveryAddress);
@@ -208,7 +203,7 @@ public class SellBillFragment extends Fragment {
 
     public void uploadNumberOfSellBillsDeleted() {
         badgeNumberOfSellBillsDeleted = view.findViewById(R.id.badgeNumberOfSellBillsDeleted);
-        badgeNumberOfSellBillsDeleted.setText(String.valueOf(sellBillEntity.getOrderList()));
+        badgeNumberOfSellBillsDeleted.setText(String.valueOf(sellBillEntity.getNumberOfSellBillsDeleted()));
     }
 
     public void handleEventsClickButton() {
@@ -253,7 +248,7 @@ public class SellBillFragment extends Fragment {
                 }
             }
         });
-        btnEditSellBill.setOnClickListener(new View.OnClickListener() {
+        btnFixSellBill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 OrderModel newSellBill = assignData();

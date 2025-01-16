@@ -149,16 +149,16 @@ public class LoginFragment extends Fragment {
 
     public AccountModel assignData() {
         AccountModel accountModel = new AccountModel();
-        accountModel.AccountName = edtUsername.getText().toString();
-        accountModel.Password = edtPassword.getText().toString();
+        accountModel.AccountName = edtUsername.getText().toString().trim();
+        accountModel.Password = edtPassword.getText().toString().trim();
         return accountModel;
     }
 
     public boolean validateData() {
-        if (edtUsername.getText().toString().isEmpty()) {
+        if (edtUsername.getText().toString().trim().isEmpty()) {
             AlertDialogUtils.showErrorDialog(getContext(), "Please enter username");
             return false;
-        } else if (edtPassword.getText().toString().isEmpty()) {
+        } else if (edtPassword.getText().toString().trim().isEmpty()) {
             AlertDialogUtils.showErrorDialog(getContext(), "Please enter password");
             return false;
         }

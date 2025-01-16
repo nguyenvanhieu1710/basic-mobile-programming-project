@@ -21,8 +21,10 @@ import com.example.basicmobileprogramingproject.Model.AccountModel;
 import com.example.basicmobileprogramingproject.Model.UserModel;
 import com.example.basicmobileprogramingproject.R;
 import com.example.basicmobileprogramingproject.Utils.AlertDialogUtils;
+import com.example.basicmobileprogramingproject.Utils.DateUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ProfileFragment extends Fragment {
     private View view;
@@ -118,23 +120,31 @@ public class ProfileFragment extends Fragment {
     }
 
     public boolean validateData() {
-        if (tvName.getText().toString().isEmpty()) {
+        if (tvName.getText().toString().trim().isEmpty()) {
             tvName.setError("Please enter your name");
             return false;
         }
-        if (edtBirthday.getText().toString().isEmpty()) {
+        if (edtBirthday.getText().toString().trim().isEmpty()) {
             edtBirthday.setError("Please enter your birthday");
             return false;
         }
-        if (edtPhoneNumber.getText().toString().isEmpty()) {
+        if (!isValidBirthday(edtBirthday.getText().toString().trim())) {
+            edtBirthday.setError("Please enter a valid birthday (dd/MM/yyyy)");
+            return false;
+        }
+        if (edtPhoneNumber.getText().toString().trim().isEmpty()) {
             edtPhoneNumber.setError("Please enter your phone number");
+            return false;
+        }
+        if (!isValidPhoneNumber(edtPhoneNumber.getText().toString().trim())) {
+            edtPhoneNumber.setError("Please enter a valid phone number. Must be 10 digits.");
             return false;
         }
         if (spinnerGender.getSelectedItemPosition() == 0) {
             tvGenderLabel.setError("Please select your gender");
             return false;
         }
-        if (edtAddress.getText().toString().isEmpty()) {
+        if (edtAddress.getText().toString().trim().isEmpty()) {
             edtAddress.setError("Please enter your address");
             return false;
         }
@@ -145,18 +155,28 @@ public class ProfileFragment extends Fragment {
         return true;
     }
 
+    private boolean isValidBirthday(String birthday) {
+        Date date = DateUtils.parseDate(birthday);
+        if (date == null) {
+            return false;
+        }
+        return true;
+    }
+
+
+    private boolean isValidPhoneNumber(String phoneNumber) {
+        return phoneNumber.matches("^[0-9]{10,}$");
+    }
+
     private void setupGenderSpinner() {
-        // Danh sách giới tính
         String[] genders = {"Male", "Female", "Other"};
 
-        // Tạo ArrayAdapter
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 getContext(),
-                android.R.layout.simple_spinner_item, // Layout mặc định
-                genders                // Danh sách dữ liệu
+                android.R.layout.simple_spinner_item,
+                genders
         );
 
-        // Đặt Adapter cho Spinner
         spinnerGender.setAdapter(adapter);
     }
 

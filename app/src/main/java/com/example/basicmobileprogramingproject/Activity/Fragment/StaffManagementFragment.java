@@ -39,6 +39,7 @@ import com.example.basicmobileprogramingproject.Model.AccountModel;
 import com.example.basicmobileprogramingproject.Model.StaffModel;
 import com.example.basicmobileprogramingproject.R;
 import com.example.basicmobileprogramingproject.Utils.AlertDialogUtils;
+import com.example.basicmobileprogramingproject.Utils.DateUtils;
 import com.example.basicmobileprogramingproject.Utils.RamdomUtils;
 
 import java.io.File;
@@ -46,6 +47,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class StaffManagementFragment extends Fragment {
     ImageButton btnSearch, btnTurnOnBlockDeleteStaff;
@@ -174,27 +176,42 @@ public class StaffManagementFragment extends Fragment {
             AlertDialogUtils.showErrorDialog(getContext(), "Please select image");
             return false;
         }
-        if (edtName.getText().toString().isEmpty()) {
+        if (edtName.getText().toString().trim().isEmpty()) {
             AlertDialogUtils.showErrorDialog(getContext(), "Please enter name");
             return false;
         }
-        if (edtPhoneNumber.getText().toString().isEmpty()) {
+        String phoneNumber = edtPhoneNumber.getText().toString().trim();
+        if (phoneNumber.isEmpty()) {
             AlertDialogUtils.showErrorDialog(getContext(), "Please enter phone number");
             return false;
+        } else if (!phoneNumber.matches("\\d{10}")) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Please enter a valid phone number. Must be 10 digits.");
+            return false;
         }
-        if (edtBirthday.getText().toString().isEmpty()) {
+        String birthday = edtBirthday.getText().toString().trim();
+        if (birthday.isEmpty()) {
             AlertDialogUtils.showErrorDialog(getContext(), "Please enter birthday");
             return false;
+        } else {
+            Date date = DateUtils.parseDate(birthday);
+            if (date == null) {
+                AlertDialogUtils.showErrorDialog(getContext(), "Please enter a valid birthday in the format dd/MM/yyyy");
+                return false;
+            }
         }
-        if (edtGender.getText().toString().isEmpty()) {
+        String gender = edtGender.getText().toString().trim();
+        if (gender.isEmpty()) {
             AlertDialogUtils.showErrorDialog(getContext(), "Please enter gender");
             return false;
+        } else if (!gender.equalsIgnoreCase("Male") && !gender.equalsIgnoreCase("Female")) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Please enter a valid gender (Male or Female)");
+            return false;
         }
-        if (edtAddress.getText().toString().isEmpty()) {
+        if (edtAddress.getText().toString().trim().isEmpty()) {
             AlertDialogUtils.showErrorDialog(getContext(), "Please enter address");
             return false;
         }
-        if (edtPosition.getText().toString().isEmpty()) {
+        if (edtPosition.getText().toString().trim().isEmpty()) {
             AlertDialogUtils.showErrorDialog(getContext(), "Please enter position");
             return false;
         }

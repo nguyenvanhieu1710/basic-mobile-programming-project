@@ -53,7 +53,54 @@ public class OrderEntity {
         return arrayList;
     }
 
-    public ArrayList<OrderModel> getOrderForStaff(){
+    public ArrayList<OrderModel> getSellBillListingHasBeenDeleted() {
+        ArrayList<OrderModel> arrayList = new ArrayList<>();
+        Cursor cursor = null;
+        String sqlStatement = "SELECT * FROM Orders WHERE Deleted = 1";
+
+        try {
+            cursor = databaseHandler.getData(sqlStatement);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    OrderModel orderModel = new OrderModel();
+                    orderModel.OrderId = cursor.getInt(cursor.getColumnIndexOrThrow("OrderId"));
+                    orderModel.UserId = cursor.getInt(cursor.getColumnIndexOrThrow("UserId"));
+                    orderModel.StaffId = cursor.getInt(cursor.getColumnIndexOrThrow("StaffId"));
+                    orderModel.OrderStatus = cursor.getString(cursor.getColumnIndexOrThrow("OrderStatus"));
+                    orderModel.TotalAmount = cursor.getDouble(cursor.getColumnIndexOrThrow("TotalAmount"));
+                    orderModel.DayBuy = cursor.getString(cursor.getColumnIndexOrThrow("DayBuy"));
+                    orderModel.DeliveryAddress = cursor.getString(cursor.getColumnIndexOrThrow("DeliveryAddress"));
+                    orderModel.Deleted = cursor.getInt(cursor.getColumnIndexOrThrow("Deleted")) == 1;
+
+                    arrayList.add(orderModel);
+                } while (cursor.moveToNext());
+            }
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            databaseHandler.closeDatabase();
+        }
+
+        return arrayList;
+    }
+
+    public int getNumberOfSellBillsDeleted() {
+        int numberOfSellBillDeleted = 0;
+        ArrayList<OrderModel> sellBillList = getSellBillListingHasBeenDeleted();
+        for (OrderModel sellBill : sellBillList) {
+            if (sellBill.Deleted) {
+                numberOfSellBillDeleted++;
+            }
+        }
+        return numberOfSellBillDeleted;
+    }
+
+    public ArrayList<OrderModel> getOrderForStaff() {
         ArrayList<OrderModel> orderList = getOrderList();
         ArrayList<OrderModel> orderListForStaff = new ArrayList<>();
         for (OrderModel order : orderList) {
@@ -64,7 +111,7 @@ public class OrderEntity {
         return orderListForStaff;
     }
 
-    public ArrayList<OrderModel> getOrderForCustomer(){
+    public ArrayList<OrderModel> getOrderForCustomer() {
         ArrayList<OrderModel> orderList = getOrderList();
         ArrayList<OrderModel> orderListForCustomer = new ArrayList<>();
         for (OrderModel order : orderList) {

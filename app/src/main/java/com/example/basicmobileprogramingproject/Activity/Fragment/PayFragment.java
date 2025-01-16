@@ -207,7 +207,6 @@ public class PayFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Hành động khi không có item nào được chọn, có thể không cần thiết
                 AlertDialogUtils.showErrorDialog(getContext(), "Please choose staff");
             }
         });
@@ -232,6 +231,14 @@ public class PayFragment extends Fragment {
     }
 
     public boolean validateData() {
+        if (totalAmount < 0) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Total amount must be greater than zero.");
+            return false;
+        }
+        if (discountAmount < 0) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Discount amount must be greater than zero.");
+            return false;
+        }
         if (totalAmount == 0) {
             AlertDialogUtils.showErrorDialog(getContext(), "Please check total amount");
             return false;
@@ -252,18 +259,6 @@ public class PayFragment extends Fragment {
             AlertDialogUtils.showErrorDialog(getContext(), "Please choose voucher");
             return false;
         }
-        if (totalAmount == 0) {
-            AlertDialogUtils.showErrorDialog(getContext(), "Please check total amount");
-            return false;
-        }
-//        if (spinnerVoucher.getSelectedItemPosition() == 0) {
-//            AlertDialogUtils.showErrorDialog(getContext(), "Please choose voucher");
-//            return false;
-//        }
-//        if (spinnerStaff.getSelectedItemPosition() == 0) {
-//            AlertDialogUtils.showErrorDialog(getContext(), "Please choose staff");
-//            return false;
-//        }
         return true;
     }
     public void replaceFragment(Fragment fragment) {

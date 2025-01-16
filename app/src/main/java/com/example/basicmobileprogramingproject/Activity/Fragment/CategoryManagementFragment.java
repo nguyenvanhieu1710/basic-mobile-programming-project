@@ -166,6 +166,16 @@ public class CategoryManagementFragment extends Fragment {
             AlertDialogUtils.showErrorDialog(getContext(), "Please enter dad category id");
             return false;
         }
+        try {
+            int dadCategoryId = Integer.parseInt(edtDadCategoryId.getText().toString().trim());
+            if (dadCategoryId < 0) {
+                AlertDialogUtils.showErrorDialog(getContext(), "Parent category ID must be a positive number.");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Parent category ID must be a valid number.");
+            return false;
+        }
         return true;
     }
 

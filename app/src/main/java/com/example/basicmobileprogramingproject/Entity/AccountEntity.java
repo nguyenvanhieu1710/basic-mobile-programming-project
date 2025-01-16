@@ -60,6 +60,49 @@ public class AccountEntity {
         return arrayList;
     }
 
+    public ArrayList<AccountModel> getAccountListHasBeenDeleted(){
+        ArrayList<AccountModel> arrayList = new ArrayList<>();
+        Cursor cursor = null;
+        String sqlStatement = "SELECT * FROM Account WHERE Deleted = 1";
+
+        try {
+            cursor = databaseHandler.getData(sqlStatement);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    AccountModel accountModel = new AccountModel();
+
+                    accountModel.AccountId = cursor.getInt(cursor.getColumnIndexOrThrow("AccountId"));
+                    accountModel.AccountName = cursor.getString(cursor.getColumnIndexOrThrow("AccountName"));
+                    accountModel.Password = cursor.getString(cursor.getColumnIndexOrThrow("Password"));
+                    accountModel.Role = cursor.getString(cursor.getColumnIndexOrThrow("Role"));
+                    accountModel.DayCreated = cursor.getString(cursor.getColumnIndexOrThrow("DayCreated"));
+                    accountModel.RememberPassword = cursor.getInt(cursor.getColumnIndexOrThrow("RememberPassword")) == 1;
+                    accountModel.Email = cursor.getString(cursor.getColumnIndexOrThrow("Email"));
+                    accountModel.Status = cursor.getString(cursor.getColumnIndexOrThrow("Status"));
+                    accountModel.Deleted = cursor.getInt(cursor.getColumnIndexOrThrow("Deleted")) == 1;
+
+                    arrayList.add(accountModel);
+                } while (cursor.moveToNext());
+            }
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            AlertDialogUtils.showErrorDialog(context, "Error: " + exception.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            databaseHandler.closeDatabase();
+        }
+        return arrayList;
+    }
+
+    public int getNumberOfAccountsDeleted() {
+        ArrayList<AccountModel> accountList = getAccountListHasBeenDeleted();
+        return accountList.size();
+    }
+
     public boolean checkExistAccount(AccountModel account) {
         ArrayList<AccountModel> accountList = getAccountList();
         for (AccountModel accountModel : accountList) {

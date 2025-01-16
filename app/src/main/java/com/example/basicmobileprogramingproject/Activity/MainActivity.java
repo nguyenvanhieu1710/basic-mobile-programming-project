@@ -283,6 +283,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.chat) {
+            if (!checkAccountOnline()) {
+                return false;
+            }
             AlertDialogUtils.showQuestionDialog(this, "Function is updating. Do you want to continue?",
                     (dialog, which) -> {
                         replaceFragment(new MessageFragment());

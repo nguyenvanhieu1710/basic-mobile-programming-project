@@ -18,7 +18,6 @@ public class CustomCategoryAdapter extends BaseAdapter {
     List<CategoryModel> dataList;
     private int viewType;
 
-    // Constructor để nhận vào dữ liệu và kiểu view
     public CustomCategoryAdapter(Context context, List<CategoryModel> dataList, int viewType) {
         this.context = context;
         this.dataList = dataList;
@@ -54,10 +53,8 @@ public class CustomCategoryAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        // Lấy dữ liệu từ dataList
         CategoryModel item = dataList.get(position);
 
-        // Bind dữ liệu vào view
         viewHolder.textViewCategoryId.setText(String.valueOf(item.CategoryId));
         viewHolder.textViewCategoryName.setText(item.CategoryName);
 

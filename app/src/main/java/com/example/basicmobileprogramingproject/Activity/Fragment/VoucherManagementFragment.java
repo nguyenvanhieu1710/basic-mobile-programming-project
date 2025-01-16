@@ -47,12 +47,14 @@ import com.example.basicmobileprogramingproject.Model.VoucherModel;
 
 import com.example.basicmobileprogramingproject.R;
 import com.example.basicmobileprogramingproject.Utils.AlertDialogUtils;
+import com.example.basicmobileprogramingproject.Utils.DateUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class VoucherManagementFragment extends Fragment {
     TextView badgeNumberOfVouchersDeleted, txtVoucherName, txtVoucherPrice, txtMinimumPrice, txtVoucherQuantity, txtStartDate, txtEndDate, txtDeletedVoucherName;
@@ -170,6 +172,71 @@ public class VoucherManagementFragment extends Fragment {
         return voucherModel;
     }
 
+    public boolean validateData() {
+        if (imagePath == null) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Please select image");
+            return false;
+        }
+
+        String voucherName = edtVoucherName.getText().toString().trim();
+        if (voucherName.isEmpty()) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Please enter voucher name");
+            return false;
+        }
+
+        String quantity = edtQuantity.getText().toString().trim();
+        if (quantity.isEmpty()) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Please enter quantity");
+            return false;
+        } else if (Integer.parseInt(quantity) < 0) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Quantity must be greater than 0");
+            return false;
+        }
+
+        String price = edtPrice.getText().toString().trim();
+        if (price.isEmpty()) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Please enter price");
+            return false;
+        } else if (Integer.parseInt(price) < 0) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Price must be greater than 0");
+            return false;
+        }
+
+        String minimumPrice = edtMinimumPrice.getText().toString().trim();
+        if (minimumPrice.isEmpty()) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Please enter minimum price");
+            return false;
+        } else if (Integer.parseInt(minimumPrice) < 0) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Minimum price must be greater than 0");
+            return false;
+        }
+
+        String startDate = edtStartDate.getText().toString().trim();
+        if (startDate.isEmpty()) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Please enter start date");
+            return false;
+        } else {
+            Date date = DateUtils.parseDate(startDate);
+            if (date == null) {
+                AlertDialogUtils.showErrorDialog(getContext(), "Please enter a valid start date in the format dd/MM/yyyy");
+                return false;
+            }
+        }
+
+        String endDate = edtEndDate.getText().toString().trim();
+        if (endDate.isEmpty()) {
+            AlertDialogUtils.showErrorDialog(getContext(), "Please enter end date");
+            return false;
+        } else {
+            Date date = DateUtils.parseDate(endDate);
+            if (date == null) {
+                AlertDialogUtils.showErrorDialog(getContext(), "Please enter a valid end date in the format dd/MM/yyyy");
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void resetData() {
         edtVoucherName.setText("");
         edtQuantity.setText("");
@@ -271,6 +338,9 @@ public class VoucherManagementFragment extends Fragment {
         btnAddNewVoucher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!validateData()) {
+                    return;
+                }
                 VoucherModel newVoucher = assignData();
                 boolean isCheck = voucherEntity.insertVoucher(newVoucher);
                 if (isCheck) {
@@ -285,6 +355,9 @@ public class VoucherManagementFragment extends Fragment {
         btnEditVoucher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!validateData()) {
+                    return;
+                }
                 VoucherModel newVoucher = assignData();
                 boolean isCheck = voucherEntity.updateVoucher(newVoucher);
                 if (isCheck) {

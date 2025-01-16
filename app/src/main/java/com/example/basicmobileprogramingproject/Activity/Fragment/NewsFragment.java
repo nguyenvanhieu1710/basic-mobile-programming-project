@@ -11,12 +11,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -27,13 +23,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.example.basicmobileprogramingproject.Adapter.CustomCategoryAdapter;
 import com.example.basicmobileprogramingproject.Adapter.NewsAdapter;
 import com.example.basicmobileprogramingproject.Entity.CategoryEntity;
 import com.example.basicmobileprogramingproject.Entity.DatabaseHandler;
@@ -42,14 +36,14 @@ import com.example.basicmobileprogramingproject.Model.CategoryModel;
 import com.example.basicmobileprogramingproject.Model.NewsModel;
 import com.example.basicmobileprogramingproject.R;
 import com.example.basicmobileprogramingproject.Utils.AlertDialogUtils;
+import com.example.basicmobileprogramingproject.Utils.DateUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class NewsFragment extends Fragment {
     TextView badgeNumberOfNewsDeleted, txtDeletedNewsName, txtNewsName, txtPostingDate, txtPersonPosting, txtNewsContent;
@@ -199,11 +193,8 @@ public class NewsFragment extends Fragment {
             AlertDialogUtils.showErrorDialog(getContext(), "Please enter posting date");
             return false;
         } else {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            sdf.setLenient(false);
-            try {
-                sdf.parse(postingDate);
-            } catch (ParseException e) {
+            Date date = DateUtils.parseDate(postingDate);
+            if (date == null) {
                 AlertDialogUtils.showErrorDialog(getContext(), "Posting date must be in the format dd/MM/yyyy and valid");
                 return false;
             }
